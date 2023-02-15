@@ -1,4 +1,4 @@
-# Developing a Blackjack Game - BlackCorgi
+# Developing a 2048 Game!!
 
 ## Project Background and Description
 
