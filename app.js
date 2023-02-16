@@ -8,9 +8,9 @@ const fixedInputs = [2,4,8,16,32,64,128,256,512,1024,2048];
 let gameVars = {
     boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "-1";
+    emptyState: {},
 };
 
-//* Initialization *//
 
 //* Initial Cached Variables *//
 let displayScore = document.querySelector(".score");
@@ -21,7 +21,7 @@ let boardDirections = document.querySelector(".direction");
 
 //* Initialization *//
 init();
-
+console.log(gameVars.emptyState);
 //* Event Listeners *//
 let arrowDir = document.querySelectorAll(".arrow");
 arrowDir.forEach((arrow) => {
@@ -61,7 +61,6 @@ function flushLeft() {
         for (let j=0;j<board_width;j++) {
             if (gameVars.boardArray[i][j] !== "") {
                 subArray.push(gameVars.boardArray[i][j]);
-
             } else {
                 empty += 1;
             };
@@ -69,18 +68,20 @@ function flushLeft() {
         for (let k = 0; k < empty; k++) {
             subArray.push("");
         };
-
         bigArray.push(subArray);
     };   
-    
     gameVars.boardArray = bigArray;
+    console.log(gameVars.boardArray);
 };
 
 function mergeLeft() {
     for (let i=0;i<board_width;i++) {
-            for (let j=0;j<board_width;j++) {
+            for (let j=0;j<board_width-1;j++) {
                 if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                     gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
+                    gameVars.boardArray[i][j+1] = "";
+                } else if (gameVars.boardArray[i][j] === "") {
+                    gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
                     gameVars.boardArray[i][j+1] = "";
                 };
             };
@@ -90,6 +91,7 @@ function mergeLeft() {
 function swipeLeft() {
     flushLeft();
     mergeLeft();
+    addTwo();
 };
 
 
@@ -103,7 +105,7 @@ function renderBoard() {
 };
 
 function renderMessage() {
-    
+
 }
 
 function createBoard() {
@@ -111,14 +113,16 @@ function createBoard() {
     for (let i=0;i<board_width;i++) {
         gameVars.boardArray[i] = [];
         for (let j=0;j<board_width;j++) {
+            //Create Board DOM element
             gameVars.boardArray[i][j] = "";
             const newBox = document.createElement("span");
             newBox.classList.add("box");
             newBox.id = i + " " + j;
             board.appendChild(newBox);
+            //Initiate emptyState of Board Array
+            gameVars.emptyState[i + " " + j] = 0;
         };
     };
-
     //Directional Buttons
     for (let i=0; i<directions.length;i++) {
         const newDirection = document.createElement("span");
@@ -141,19 +145,32 @@ function identifyID() {
     return [initIndex[0],initIndex[1]];
 };
 
-//* Create Two random boxes for initialization
+//* Initialize Two random boxes of "2"
 function randomTwo() {
     let initIndexOne = identifyID();
     let initIndexTwo = identifyID();
-    while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1]) {
+    while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
+        && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
+        && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
+        initIndexOne = identifyID();
         initIndexTwo = identifyID();
     };
     gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
     gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
+    gameVars.emptyState[initIndexOne[0] + " " + initIndexOne[1]] = 1;
+    gameVars.emptyState[initIndexTwo[0] + " " + initIndexTwo[1]] = 1;
+    console.log(initIndexOne[0] + " " + initIndexOne[1]);
+
 };
 
-function checkPresence() {
-
+function addTwo() {
+    let initIndex = identifyID();
+    while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
+        initIndex = identifyID();
+    }
+    gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
 }
+
 function update() {
+
 };
