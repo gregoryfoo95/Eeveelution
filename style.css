@@ -80,4 +80,5 @@ div {
     border: solid 1px black;
     justify-content: space-evenly;
     background-color: white;
+    font-size: 50px;
 }
