@@ -53,25 +53,44 @@ function handleArrowClick(e) {
     renderBoard();
 };
 
-function swipeLeft() {
-    const board_array = gameVars.boardArray;
-  for (let i=0;i<board_width-1;i++) {
-    for (let j=board_width-1;j>=1;j--) {
-        if (board_array[i][j] === "") {
-            continue;
-        } else if (board_array[i][j] !== "") {
-            if (board_array[i][j] === board_array[i][j-1]) {
-                board_array[i][j-1] += board_array[i][j];
-                board_array[i][j] = "";
-            } else if (board_array[i][j] !== board_array[i][j-1]) {
-                continue;
+function flushLeft() {
+        let bigArray = [];
+    for (let i=0;i<board_width;i++) {
+        let subArray = [];
+        let empty = 0;
+        for (let j=0;j<board_width;j++) {
+            if (gameVars.boardArray[i][j] !== "") {
+                subArray.push(gameVars.boardArray[i][j]);
+
+            } else {
+                empty += 1;
             };
         };
+        for (let k = 0; k < empty; k++) {
+            subArray.push("");
         };
-    };
-    console.log(board_array);
-};  
 
+        bigArray.push(subArray);
+    };   
+    
+    gameVars.boardArray = bigArray;
+};
+
+function mergeLeft() {
+    for (let i=0;i<board_width;i++) {
+            for (let j=0;j<board_width;j++) {
+                if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                    gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
+                    gameVars.boardArray[i][j+1] = "";
+                };
+            };
+        };
+};
+
+function swipeLeft() {
+    flushLeft();
+    mergeLeft();
+};
 
 
 function renderBoard() {
@@ -81,10 +100,10 @@ function renderBoard() {
             targetBox.textContent = gameVars.boardArray[i][j];
         };
     };
-}
+};
 
 function renderMessage() {
-
+    
 }
 
 function createBoard() {
@@ -133,5 +152,8 @@ function randomTwo() {
     gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
 };
 
+function checkPresence() {
+
+}
 function update() {
 };
