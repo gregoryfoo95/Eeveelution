@@ -71,7 +71,6 @@ function flushLeft() {
         bigArray.push(subArray);
     };   
     gameVars.boardArray = bigArray;
-    console.log(gameVars.boardArray);
 };
 
 function mergeLeft() {
@@ -84,10 +83,16 @@ function mergeLeft() {
                     gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
                     gameVars.boardArray[i][j+1] = "";
                 };
+            //Future Work: To cater for scalability, current only supports 4x4 grid to satisfy edge case of 2 2 2 2 in a row
+            for (let k=1;k<board_width-1;k++) {
+                if (gameVars.boardArray[i][k] === gameVars.boardArray[i][k+1]) {
+                    gameVars.boardArray[i][k] += gameVars.boardArray[i][k+1];
+                    gameVars.boardArray[i][k+1] = "";
+                }
             };
         };
+    };
 };
-
 function swipeLeft() {
     flushLeft();
     mergeLeft();
@@ -161,6 +166,10 @@ function randomTwo() {
     gameVars.emptyState[initIndexTwo[0] + " " + initIndexTwo[1]] = 1;
     console.log(initIndexOne[0] + " " + initIndexOne[1]);
 
+/* gameVars.boardArray[0][0] = 2;
+gameVars.boardArray[0][1] = 2;
+gameVars.boardArray[0][2] = 2;
+gameVars.boardArray[0][3] = 2; */
 };
 
 function addTwo() {
