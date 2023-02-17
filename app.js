@@ -1,6 +1,6 @@
 //* Constants *//
 const board_width = 4;
-const directions = ["left", "right", "top", "bottom"];
+const directions = ["left", "right", "up", "down"];
 const dirSymbols = ["←","→","↑","↓"];
 const fixedInputs = [2,4,8,16,32,64,128,256,512,1024,2048];
 const testing = false;
@@ -11,9 +11,9 @@ let gameVars = {
     emptyState: {},
     numColor: {
         "" : "white",
-        "2": "blue",
-        "4": "yellow",
-        "8": "green",
+        "2": "lightblue",
+        "4": "lightyellow",
+        "8": "lightgreen",
         "16": "orange"
     }
 };
@@ -56,29 +56,29 @@ function handleArrowClick(e) {
         case "right":
             swipeRight();
             break;
-        case "top":
+        case "up":
+            swipeUp();
             break;
-        case "bottom":
+        case "down":
+            swipeDown();
             break;
     };
     renderBoard();
 };
 
 function swipeLeft() {
+    console.log("First Step: ", gameVars.boardArray);
     flushLeft();
-    mergeLeftTest();
+    console.log("Post-Flush: ", gameVars.boardArray);
+    mergeLeft();
+    console.log("Post-Merge: ", gameVars.boardArray);
     flushLeft();
-    addTwo();
-};
-
-function swipeRight() {
-    flushRight();
-    mergeRight();
+    console.log("Post-Flush: ", gameVars.boardArray);
     addTwo();
 };
 
 function flushLeft() {
-        let bigArray = [];
+    let bigArray = [];
     for (let i=0;i<board_width;i++) {
         let subArray = [];
         let empty = 0;
@@ -95,41 +95,28 @@ function flushLeft() {
         bigArray.push(subArray);
     };   
     gameVars.boardArray = bigArray;
-    console.log(gameVars.boardArray);
 };
 
-function mergeLeftTest() {
+function mergeLeft() {
     for (let i=0;i<board_width;i++) {
         for (let j=0;j<board_width;j++) {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
                 gameVars.boardArray[i][j+1] = "";
-            } else {
-                continue;
-            };
+            }
         };
     };
 };
 
-function mergeLeft() {
-    for (let i=0;i<board_width;i++) {
-        for (let j=0;j<board_width-1;j++) {
-            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
-                gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
-                gameVars.boardArray[i][j+1] = "";
-            } else if (gameVars.boardArray[i][j] === "") {
-                gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
-                gameVars.boardArray[i][j+1] = "";
-            };
-        };
-        //Future Work: To cater for scalability, current only supports 4x4 grid to satisfy edge case of 2 2 2 2 in a row
-        for (let k=1;k<board_width-1;k++) {
-            if (gameVars.boardArray[i][k] === gameVars.boardArray[i][k+1]) {
-                gameVars.boardArray[i][k] += gameVars.boardArray[i][k+1];
-                gameVars.boardArray[i][k+1] = "";
-            };
-        };
-    };
+function swipeRight() {
+    console.log("First Step: ", gameVars.boardArray);
+    flushRight();
+    console.log("Post-Flush: ", gameVars.boardArray);
+    mergeRight();
+    console.log("Post-Merge: ", gameVars.boardArray);
+    flushRight();
+    console.log("Post-Flush: ", gameVars.boardArray);
+    addTwo();
 };
 
 function flushRight() {
@@ -137,7 +124,7 @@ function flushRight() {
     for (let i=0;i<board_width;i++) {
         let subArray = [];
         let empty = 0;
-        for (let j=0;j<board_width;j++) {
+        for (let j=board_width-1;j>=0;j--) {
             if (gameVars.boardArray[i][j] !== "") {
                 subArray.unshift(gameVars.boardArray[i][j]);
             } else {
@@ -147,13 +134,10 @@ function flushRight() {
         for (let k = 0; k < empty; k++) {
             subArray.unshift("");
         };
-        console.log(subArray);
         bigArray.push(subArray);
     };   
     gameVars.boardArray = bigArray;
-    console.log(gameVars.boardArray);
 };
-
 
 function mergeRight() {
     for (let i=0;i<board_width;i++) {
@@ -161,20 +145,91 @@ function mergeRight() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
                 gameVars.boardArray[i][j-1] = "";
-            } else if (gameVars.boardArray[i][j] === "") {
-                gameVars.boardArray[i][j] = gameVars.boardArray[i][j-1];
-                gameVars.boardArray[i][j-1] = "";
-            };
-        //Future Work: To cater for scalability, current only supports 4x4 grid to satisfy edge case of 2 2 2 2 in a row
-        };
-        for (let k=board_width-2;k>0;k--) {
-            if (gameVars.boardArray[i][k] === gameVars.boardArray[i][k-1]) {
-                gameVars.boardArray[i][k] += gameVars.boardArray[i][k-1];
-                gameVars.boardArray[i][k-1] = "";
             };
         };
     };
-    //console.log(gameVars.boardArray);
+};
+
+function swipeUp() {
+    flushUp();
+    mergeUp();
+    flushUp();
+    addTwo();
+};
+
+function flushUp() {
+    let newArray = transpose(gameVars.boardArray);
+          let bigArray = [];
+    for (let i=0;i<board_width;i++) {
+        let subArray = [];
+        let empty = 0;
+        for (let j=0;j<board_width;j++) {
+            if (newArray[i][j] !== "") {
+                subArray.push(newArray[i][j]);
+            } else {
+                empty += 1;
+            };
+        };
+        for (let k = 0; k < empty; k++) {
+            subArray.push("");
+        };
+        bigArray.push(subArray);
+    };
+    gameVars.boardArray = transpose(bigArray);
+};
+
+function mergeUp() {
+    let newArray = transpose(gameVars.boardArray);
+    for (let i=0;i<board_width;i++) {
+        for (let j=0;j<board_width;j++) {
+            if (newArray[i][j] === newArray[i][j+1]) {
+                newArray[i][j] += newArray[i][j+1];
+                newArray[i][j+1] = "";
+            };
+        };
+    };
+    gameVars.boardArray = transpose(newArray);
+};
+
+function swipeDown() {
+ flushDown();
+ mergeDown();
+ flushDown();
+ addTwo();
+};
+
+function flushDown() {
+    let newArray = transpose(gameVars.boardArray);
+    let bigArray = [];
+    for (let i=0;i<board_width;i++) {
+        let subArray = [];
+        let empty = 0;
+        for (let j=board_width-1;j>=0;j--) {
+            if (newArray[i][j] !== "") {
+                subArray.unshift(newArray[i][j]);
+            } else {
+                empty += 1;
+            };
+        };
+        for (let k = 0; k < empty; k++) {
+            subArray.unshift("");
+        };
+        bigArray.push(subArray);
+    };   
+    gameVars.boardArray = transpose(bigArray);
+};
+
+function mergeDown() {
+    let newArray = transpose(gameVars.boardArray);
+    for (let i=0;i<board_width;i++) {
+        for (let j=board_width-1;j>0;j--) {
+            if (newArray[i][j] === newArray[i][j-1]) {
+                newArray[i][j] += newArray[i][j-1];
+                newArray[i][j-1] = "";
+            };
+        };
+    };
+    gameVars.boardArray = transpose(newArray);
 };
 
 function renderBoard() {
@@ -214,6 +269,17 @@ function createBoard() {
         newDirection.textContent = dirSymbols[i];
         boardDirections.appendChild(newDirection);
     };  
+};
+
+function transpose(matrix) {
+    for (let i=0; i<matrix.length;i++) {
+        for (let j=0; j<i; j++) {
+            const temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        };
+    };
+    return matrix;
 };
 
 function generateRandomIndex() {
@@ -264,6 +330,3 @@ function addTwo() {
     gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
 }
 
-function update() {
-
-};
