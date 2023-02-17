@@ -3,12 +3,19 @@ const board_width = 4;
 const directions = ["left", "right", "top", "bottom"];
 const dirSymbols = ["←","→","↑","↓"];
 const fixedInputs = [2,4,8,16,32,64,128,256,512,1024,2048];
-
+const testing = false;
 //* State Variables *//
 let gameVars = {
     boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "-1";
     emptyState: {},
+    numColor: {
+        "" : "white",
+        "2": "blue",
+        "4": "yellow",
+        "8": "green",
+        "16": "orange"
+    }
 };
 
 
@@ -21,7 +28,6 @@ let boardDirections = document.querySelector(".direction");
 
 //* Initialization *//
 init();
-console.log(gameVars.emptyState);
 //* Event Listeners *//
 let arrowDir = document.querySelectorAll(".arrow");
 arrowDir.forEach((arrow) => {
@@ -32,7 +38,11 @@ arrowDir.forEach((arrow) => {
 
 function init() {
     createBoard();
-    randomTwo();
+    if (testing) {
+        boardTesting();
+    } else {
+        randomTwo();
+    };
     renderBoard();
 };
 
@@ -44,6 +54,7 @@ function handleArrowClick(e) {
             swipeLeft();
             break;
         case "right":
+            swipeRight();
             break;
         case "top":
             break;
@@ -51,6 +62,19 @@ function handleArrowClick(e) {
             break;
     };
     renderBoard();
+};
+
+function swipeLeft() {
+    flushLeft();
+    mergeLeftTest();
+    flushLeft();
+    addTwo();
+};
+
+function swipeRight() {
+    flushRight();
+    mergeRight();
+    addTwo();
 };
 
 function flushLeft() {
@@ -71,40 +95,94 @@ function flushLeft() {
         bigArray.push(subArray);
     };   
     gameVars.boardArray = bigArray;
+    console.log(gameVars.boardArray);
 };
 
-function mergeLeft() {
+function mergeLeftTest() {
     for (let i=0;i<board_width;i++) {
-            for (let j=0;j<board_width-1;j++) {
-                if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
-                    gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
-                    gameVars.boardArray[i][j+1] = "";
-                } else if (gameVars.boardArray[i][j] === "") {
-                    gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
-                    gameVars.boardArray[i][j+1] = "";
-                };
-            //Future Work: To cater for scalability, current only supports 4x4 grid to satisfy edge case of 2 2 2 2 in a row
-            for (let k=1;k<board_width-1;k++) {
-                if (gameVars.boardArray[i][k] === gameVars.boardArray[i][k+1]) {
-                    gameVars.boardArray[i][k] += gameVars.boardArray[i][k+1];
-                    gameVars.boardArray[i][k+1] = "";
-                }
+        for (let j=0;j<board_width;j++) {
+            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
+                gameVars.boardArray[i][j+1] = "";
+            } else {
+                continue;
             };
         };
     };
 };
-function swipeLeft() {
-    flushLeft();
-    mergeLeft();
-    addTwo();
+
+function mergeLeft() {
+    for (let i=0;i<board_width;i++) {
+        for (let j=0;j<board_width-1;j++) {
+            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
+                gameVars.boardArray[i][j+1] = "";
+            } else if (gameVars.boardArray[i][j] === "") {
+                gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
+                gameVars.boardArray[i][j+1] = "";
+            };
+        };
+        //Future Work: To cater for scalability, current only supports 4x4 grid to satisfy edge case of 2 2 2 2 in a row
+        for (let k=1;k<board_width-1;k++) {
+            if (gameVars.boardArray[i][k] === gameVars.boardArray[i][k+1]) {
+                gameVars.boardArray[i][k] += gameVars.boardArray[i][k+1];
+                gameVars.boardArray[i][k+1] = "";
+            };
+        };
+    };
 };
 
+function flushRight() {
+       let bigArray = [];
+    for (let i=0;i<board_width;i++) {
+        let subArray = [];
+        let empty = 0;
+        for (let j=0;j<board_width;j++) {
+            if (gameVars.boardArray[i][j] !== "") {
+                subArray.unshift(gameVars.boardArray[i][j]);
+            } else {
+                empty += 1;
+            };
+        };
+        for (let k = 0; k < empty; k++) {
+            subArray.unshift("");
+        };
+        console.log(subArray);
+        bigArray.push(subArray);
+    };   
+    gameVars.boardArray = bigArray;
+    console.log(gameVars.boardArray);
+};
+
+
+function mergeRight() {
+    for (let i=0;i<board_width;i++) {
+        for (let j=board_width-1;j>0;j--) {
+            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
+                gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
+                gameVars.boardArray[i][j-1] = "";
+            } else if (gameVars.boardArray[i][j] === "") {
+                gameVars.boardArray[i][j] = gameVars.boardArray[i][j-1];
+                gameVars.boardArray[i][j-1] = "";
+            };
+        //Future Work: To cater for scalability, current only supports 4x4 grid to satisfy edge case of 2 2 2 2 in a row
+        };
+        for (let k=board_width-2;k>0;k--) {
+            if (gameVars.boardArray[i][k] === gameVars.boardArray[i][k-1]) {
+                gameVars.boardArray[i][k] += gameVars.boardArray[i][k-1];
+                gameVars.boardArray[i][k-1] = "";
+            };
+        };
+    };
+    //console.log(gameVars.boardArray);
+};
 
 function renderBoard() {
     for (let i=0;i<board_width;i++) {
         for (let j=0;j<board_width;j++) {
             const targetBox = document.getElementById(i + " " + j);
             targetBox.textContent = gameVars.boardArray[i][j];
+            targetBox.style.backgroundColor = gameVars.numColor[gameVars.boardArray[i][j]]
         };
     };
 };
@@ -150,6 +228,16 @@ function identifyID() {
     return [initIndex[0],initIndex[1]];
 };
 
+//Function for testing, delete later
+function boardTesting() {
+    gameVars.boardArray = [
+        [2,"",2,""],
+        [2,2,2,4],
+        [2,"","",2],
+        [2,2,"",2]
+    ];
+}
+
 //* Initialize Two random boxes of "2"
 function randomTwo() {
     let initIndexOne = identifyID();
@@ -164,18 +252,14 @@ function randomTwo() {
     gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
     gameVars.emptyState[initIndexOne[0] + " " + initIndexOne[1]] = 1;
     gameVars.emptyState[initIndexTwo[0] + " " + initIndexTwo[1]] = 1;
-    console.log(initIndexOne[0] + " " + initIndexOne[1]);
-
-/* gameVars.boardArray[0][0] = 2;
-gameVars.boardArray[0][1] = 2;
-gameVars.boardArray[0][2] = 2;
-gameVars.boardArray[0][3] = 2; */
 };
 
 function addTwo() {
     let initIndex = identifyID();
     while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
         initIndex = identifyID();
+    
+        //Need to cater for break when board is fully populated
     }
     gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
 }
