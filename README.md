@@ -21,7 +21,7 @@ The objective of the game is to slide tiles on a grid to merge them together to 
 ## Gameplay!
 
 ## Wireframe Sketch
-![Alt text](gregoryfoo95/2048_Game/ideation/Wireframe_2048.pdf)
+![Initial Sketch](https://github.com/gregoryfoo95/2048_Game/blob/main/Ideation/Initial%20Wireframe.png?raw=true)
 
 ## Development Timeline
 
