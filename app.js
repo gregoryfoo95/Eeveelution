@@ -1,10 +1,11 @@
+"use strict";
 //* Constants *//
 const board_width = 4;
 const directions = ["left", "right", "up", "down"];
 const dirSymbols = ["←","→","↑","↓"];
 const fixedInputs = [2,4,8,16,32,64,128,256,512,1024,2048];
-const testing = false;
-//* State Variables *//
+const testing = true;
+//* Game Variables *//
 let gameVars = {
     boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "-1";
@@ -14,8 +15,11 @@ let gameVars = {
         "2": "lightblue",
         "4": "lightyellow",
         "8": "lightgreen",
-        "16": "orange"
-    }
+        "16": "orange",
+        "32": "cyan",
+        "64": "turquoise"
+    },
+    eeveeImages: []
 };
 
 
@@ -67,17 +71,36 @@ function handleArrowClick(e) {
 };
 
 function swipeLeft() {
-    console.log("First Step: ", gameVars.boardArray);
+    const preArray = gameVars.boardArray;
+    //console.log(JSON.parse(JSON.stringify(preArray)));
     flushLeft();
-    console.log("Post-Flush: ", gameVars.boardArray);
+    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray))); //To ask: need to use this to show current state of an object, else it will show last state of execution
+    //console.log("Post-First-Flush: ", gameVars.boardArray);
     mergeLeft();
-    console.log("Post-Merge: ", gameVars.boardArray);
+    //console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
     flushLeft();
-    console.log("Post-Flush: ", gameVars.boardArray);
+    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
     addTwo();
+    //console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
 };
 
-function flushLeft() {
+
+function equals(a,b) {
+    if (a === b) return true;
+
+    if (!a || !b || (typeof a !== 'object' && typeof b !== 'object'))
+        return a === b;
+
+    if (a.prototype !== b.prototype) return false;
+
+    const keys = Object.keys(a);
+    if (keys.length !== Object.keys(b).length) return false;
+
+    return keys.every(k => equals(a[k], b[k]));
+
+};
+
+/* function flushLeft() {
     let bigArray = [];
     for (let i=0;i<board_width;i++) {
         let subArray = [];
@@ -89,23 +112,41 @@ function flushLeft() {
                 empty += 1;
             };
         };
+
         for (let k = 0; k < empty; k++) {
             subArray.push("");
         };
         bigArray.push(subArray);
-    };   
+    };
+    console.log("From within flushleft:", bigArray);
     gameVars.boardArray = bigArray;
+};
+ */
+
+
+function flushLeft() {
+    for (let i=0;i<board_width;i++) {
+        for (let j=0;j<board_width-1;j++) {
+            if (gameVars.boardArray[i][j] !== "") {
+                continue;
+            } else if (gameVars.boardArray[i][j] === "") {
+                gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
+                gameVars.boardArray[i][j+1] = "";
+            };
+        };
+    };
 };
 
 function mergeLeft() {
     for (let i=0;i<board_width;i++) {
-        for (let j=0;j<board_width;j++) {
+        for (let j=0;j<board_width-1;j++) {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
                 gameVars.boardArray[i][j+1] = "";
-            }
+            };
         };
     };
+    checkWinner();
 };
 
 function swipeRight() {
@@ -136,6 +177,7 @@ function flushRight() {
         };
         bigArray.push(subArray);
     };   
+
     gameVars.boardArray = bigArray;
 };
 
@@ -148,6 +190,7 @@ function mergeRight() {
             };
         };
     };
+    checkWinner();
 };
 
 function swipeUp() {
@@ -189,6 +232,7 @@ function mergeUp() {
         };
     };
     gameVars.boardArray = transpose(newArray);
+    checkWinner();
 };
 
 function swipeDown() {
@@ -230,6 +274,7 @@ function mergeDown() {
         };
     };
     gameVars.boardArray = transpose(newArray);
+    checkWinner();
 };
 
 function renderBoard() {
@@ -298,9 +343,9 @@ function identifyID() {
 function boardTesting() {
     gameVars.boardArray = [
         [2,"",2,""],
-        [2,2,2,4],
-        [2,"","",2],
-        [2,2,"",2]
+        [2,"",2,2],
+        [2,"","",""],
+        [2,"","",""]
     ];
 }
 
@@ -320,13 +365,66 @@ function randomTwo() {
     gameVars.emptyState[initIndexTwo[0] + " " + initIndexTwo[1]] = 1;
 };
 
+function checkFullBoard() {
+    let allBoxFilled = true;
+    for (let i = 0; i < game_width; i++ ) {
+        for (let j = 0; j < game_width; j++) {
+            if (gameVars.boardArray[i][j] === "") {
+                allBoxFilled = false;
+                break;
+            }
+        }
+    }
+
+    if (allBoxFilled) {
+        checkLose();
+    };
+}
 function addTwo() {
     let initIndex = identifyID();
     while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
         initIndex = identifyID();
-    
         //Need to cater for break when board is fully populated
     }
     gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
-}
+};
 
+function checkWinner() {
+    for (let i = 0; i < gameVars.boardArray.length; i++) {
+        for (let j = 0; j < gameVars.boardArray[i].length;j++) {
+            if (gameVars.boardArray[i][j] === 2048) {
+                console.log("You Won!");
+                gameVars.gameStatus = 1;
+            };
+        };
+    };
+};
+
+function checkLose() {
+    let gameOver = true;
+    //Check from left to right for possible winning configurations
+    for (let i = 0; i < board_width; i++) {
+        for (let j = 0; j < board_width; j++) {
+            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                gameOver = false;
+                break;
+            };
+        };
+    };
+    //Check from Top to bottom for possible winning configurations
+    if (gameOver) {
+        for (let j = 0; j < board_width; j++) {
+            for (let i = 0; i < board_width; i++) {
+                if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
+                    gameOver = false;
+                    break;
+                };
+            };
+        };
+    };
+
+    if (gameOver) {
+        console.log("Good luck next time! Eevee has decided to look for a better pokemon trainer...");
+        gameVars.gameStatus = 0;
+    };
+};
