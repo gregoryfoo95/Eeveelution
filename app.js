@@ -98,7 +98,7 @@ function swipeLeft() {
     console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
     flushLeft();
     console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
-    addTwo();
+    setTimeout(addTwo,2000);
     console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
 };
 
@@ -118,7 +118,7 @@ function equals(a,b) {
 
 };
 
-/* function flushLeft() {
+function flushLeft() {
     let bigArray = [];
     for (let i=0;i<board_width;i++) {
         let subArray = [];
@@ -139,10 +139,10 @@ function equals(a,b) {
     console.log("From within flushleft:", bigArray);
     gameVars.boardArray = bigArray;
 };
- */
 
 
-function flushLeft() {
+
+/* function flushLeft() {
     for (let i=0;i<board_width;i++) {
         for (let j=0;j<board_width-1;j++) {
             if (gameVars.boardArray[i][j] !== "") {
@@ -153,7 +153,7 @@ function flushLeft() {
             };
         };
     };
-};
+}; */
 
 function mergeLeft() {
     for (let i=0;i<board_width;i++) {
