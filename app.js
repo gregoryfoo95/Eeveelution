@@ -17,9 +17,27 @@ let gameVars = {
         "8": "lightgreen",
         "16": "orange",
         "32": "cyan",
-        "64": "turquoise"
+        "64": "turquoise",
+        "128": "lightcyan",
+        "256": "lightgoldenrod",
+        "512": "lightgray",
+        "1024": "teal",
+        "2048": "blanchedalmond"
     },
-    eeveeImages: []
+    eeveeImages: {
+        "" : "",
+        "2": "/Eevees/Pokeball.jpg",
+        "4": "/Eevees/Eevee.png",
+        "8": "/Eevees/Espeon.png",
+        "16": "/Eevees/Faryeon.png",
+        "32": "/Eevees/Flareon.png",
+        "64": "/Eevees/Glaceon.png",
+        "128": "/Eevees/Jolteon.png",
+        "256": "/Eevees/Leafeon.png",
+        "512": "/Eevees/Umbreon.png",
+        "1024": "/Eevees/Vaporeon.png",
+        "2048": "/Eevees/Team_Eevee.png"
+    }
 };
 
 
@@ -283,6 +301,9 @@ function renderBoard() {
             const targetBox = document.getElementById(i + " " + j);
             targetBox.textContent = gameVars.boardArray[i][j];
             targetBox.style.backgroundColor = gameVars.numColor[gameVars.boardArray[i][j]]
+            if (gameVars.boardArray[i][j] !== "") {
+            targetBox.innerHTML = "<img src =" + gameVars.eeveeImages[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
+            };
         };
     };
 };
@@ -342,7 +363,7 @@ function identifyID() {
 //Function for testing, delete later
 function boardTesting() {
     gameVars.boardArray = [
-        [2,"",2,""],
+        [1024,"",1024,""],
         [2,"",2,2],
         [2,"","",""],
         [2,"","",""]
@@ -379,7 +400,8 @@ function checkFullBoard() {
     if (allBoxFilled) {
         checkLose();
     };
-}
+};
+
 function addTwo() {
     let initIndex = identifyID();
     while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
