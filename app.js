@@ -26,17 +26,17 @@ let gameVars = {
     },
     eeveeImages: {
         "" : "",
-        "2": "./Eevees/Pokeball.jpg",
-        "4": "./Eevees/Eevee.png",
-        "8": "./Eevees/Espeon.png",
-        "16": "./Eevees/Faryeon.png",
-        "32": "./Eevees/Flareon.png",
-        "64": "./Eevees/Glaceon.png",
-        "128": "./Eevees/Jolteon.png",
-        "256": "./Eevees/Leafeon.png",
-        "512": "./Eevees/Umbreon.png",
-        "1024": "./Eevees/Vaporeon.png",
-        "2048": "./Eevees/Team_Eevee.png"
+        "2": "https://i.ibb.co/1rGW0yL/Pokeball.jpg",
+        "4": "https://i.ibb.co/1fMk8dt/Eevee.png",
+        "8": "https://i.ibb.co/ZhyGRCf/Flareon.png",
+        "16": "https://i.ibb.co/7knyw4V/Jolteon.png",
+        "32": "https://i.ibb.co/cbRNFp8/Vaporeon.png",
+        "64": "https://i.ibb.co/4W1Rg55/Umbreon.png",
+        "128": "https://i.ibb.co/HVYGJ3Q/Espeon.png",
+        "256": "https://i.ibb.co/7J7K7D8/Glaceon.png",
+        "512": "https://i.ibb.co/Hh4HkNs/Leafeon.png",
+        "1024": "https://i.ibb.co/xMYW6Cw/Faryeon.png",
+        "2048": "https://i.ibb.co/bLxLGmG/Team-Eevee.png"
     }
 };
 
