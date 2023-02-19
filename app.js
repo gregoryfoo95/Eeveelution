@@ -26,17 +26,17 @@ let gameVars = {
     },
     eeveeImages: {
         "" : "",
-        "2": "https://github.com/gregoryfoo95/Eevees/Pokeball.jpg",
-        "4": "../Eevees/Eevee.png",
-        "8": "../Eevees/Espeon.png",
-        "16": "../Eevees/Faryeon.png",
-        "32": "../Eevees/Flareon.png",
-        "64": "../Eevees/Glaceon.png",
-        "128": "../Eevees/Jolteon.png",
-        "256": "../Eevees/Leafeon.png",
-        "512": "../Eevees/Umbreon.png",
-        "1024": "../Eevees/Vaporeon.png",
-        "2048": "/Eevees/Team_Eevee.png"
+        "2": "./Eevees/Pokeball.jpg",
+        "4": "./Eevees/Eevee.png",
+        "8": "./Eevees/Espeon.png",
+        "16": "./Eevees/Faryeon.png",
+        "32": "./Eevees/Flareon.png",
+        "64": "./Eevees/Glaceon.png",
+        "128": "./Eevees/Jolteon.png",
+        "256": "./Eevees/Leafeon.png",
+        "512": "./Eevees/Umbreon.png",
+        "1024": "./Eevees/Vaporeon.png",
+        "2048": "./Eevees/Team_Eevee.png"
     }
 };
 
