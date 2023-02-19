@@ -64,11 +64,13 @@ arrowDir.forEach((arrow) => {
 });
 
 document.addEventListener('touchstart', e => {
-  touchstartX = e.changedTouches[0].screenX
+    gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
+    gameVars.swipeDirections.touchStartY = e.changedTouches[0].screenY;
 })
 
 document.addEventListener('touchend', e => {
-  touchendX = e.changedTouches[0].screenX
+  gameVars.swipeDirections.touchEndX = e.changedTouches[0].screenX;
+  gameVars.swipeDirections.touchEndY = e.changedTouches[0].screenY;
   checkDirection();
 });
 
@@ -84,13 +86,18 @@ function init() {
 };
 
 function checkDirection() {
-  if (touchendX < touchstartX) {
+  if (gameVars.swipeDirections.touchEndX < gameVars.swipeDirections.touchStartX) {
     swipeLeft();
   };
-  
-  if (touchendX > touchstartX) {
-
-  }
+  if (gameVars.swipeDirections.touchEndX > gameVars.swipeDirections.touchStartX) {
+    swipeRight();
+  };
+  if (gameVars.swipeDirections.touchEndY < gameVars.swipeDirections.touchStartY) {
+    swipeDown();
+  };
+  if (gameVars.swipeDirections.touchEndY > gameVars.swipeDirections.touchStartY) {
+    swipeUp();
+  };
 };
 
 function handleArrowClick(e) {
