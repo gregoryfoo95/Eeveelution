@@ -26,7 +26,7 @@ let gameVars = {
     },
     eeveeImages: {
         "" : "",
-        "2": "/assets/Eevees/Pokeball.jpg",
+        "2": "https://github.com/gregoryfoo95/Eevees/Pokeball.jpg",
         "4": "../Eevees/Eevee.png",
         "8": "../Eevees/Espeon.png",
         "16": "../Eevees/Faryeon.png",
