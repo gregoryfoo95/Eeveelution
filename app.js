@@ -58,10 +58,12 @@ let boardDirections = document.querySelector(".direction");
 //* Initialization *//
 init();
 //* Event Listeners *//
-let arrowDir = document.querySelectorAll(".arrow");
+/* let arrowDir = document.querySelectorAll(".arrow");
 arrowDir.forEach((arrow) => {
     arrow.addEventListener("click", handleArrowClick);
-});
+}); */
+
+window.addEventListener("keydown", handleKeyPress);
 
 document.addEventListener('touchstart', e => {
     gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
@@ -100,7 +102,28 @@ function checkDirection() {
   };
 };
 
-function handleArrowClick(e) {
+function handleKeyPress(e) {
+    e.preventDefault();
+    let clicked = e.keyCode;
+    console.log(clicked);
+    switch(clicked) {
+        case 37:
+            swipeLeft();
+            break;
+        case 39:
+            swipeRight();
+            break;
+        case 38:
+            swipeUp();
+            break;
+        case 40:
+            swipeDown();
+            break;
+    };
+    renderBoard();
+};
+
+/* function handleArrowClick(e) {
     e.preventDefault();
     let clicked = e.currentTarget.id;
     switch(clicked) {
@@ -118,7 +141,7 @@ function handleArrowClick(e) {
             break;
     };
     renderBoard();
-};
+}; */
 
 function swipeLeft() {
     flushLeft();
@@ -376,14 +399,14 @@ function createBoard() {
             board.appendChild(newBox);
         };
     };
-    //Directional Buttons
+/*     //Directional Buttons
     for (let i=0; i<directions.length;i++) {
         const newDirection = document.createElement("span");
         newDirection.classList.add("arrow");
         newDirection.id = directions[i];
         newDirection.textContent = dirSymbols[i];
         boardDirections.appendChild(newDirection);
-    };  
+    };  */ 
 };
 
 function transpose(matrix) {

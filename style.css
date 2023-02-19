@@ -1,5 +1,7 @@
 body {
     background-color: #15202B;
+    /* background-image: url("https://i.ibb.co/dt3kxnY/background11.jpg"); */
+    background-image: url("https://i.ibb.co/VSyYZxY/background2.jpg")
 }
 
 .banner {
@@ -10,22 +12,27 @@ body {
 .screen {
     display: flex;
     justify-content: center;
-    border: solid 5px #AAB8C2;
+    border: solid 5px #633C15;
     background-color: white;
     padding: 20px;
     width: 25%;
-    font-size: 18px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    font-size: 2vw;
+    font-weight: 300;
+    color:#633C15;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
 }
 
 .score {
     display: flex;
     justify-content: center;
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     width: 5%;
-    font-size:20;
-    border: solid 5px #AAB8C2;
+    text-align:center;
+    font-size:30px;
+    border: solid 5px #633C15;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 div {
@@ -45,7 +52,7 @@ div {
     justify-items: center;
     grid-template-columns: 25% 25% 25% 25%;
     grid-template-rows: 25% 25% 25% 25%;
-    background-color: #657786;
+    background-color: #332011;
 }
 
 .box {
@@ -54,34 +61,24 @@ div {
     width: 50px;
     height: 50px;
     padding: 40px;
-    border: solid 5px #AAB8C2;
+    border: solid 5px #633C15;
     justify-content: space-evenly;
     background-color: white;
     font-size: 50px;
+    font-weight: bold;
     font-family: 'Nova Flat';
 }
 
-.direction {
+.instruction {
     display: grid;
-    margin-top: 30px;
-    width: 500px;
-    height: 130px;
-    border: solid 3px black;
-    background-color: white;
-    padding: 10px;
-    justify-items: center;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: 100%;
+    margin-top: 40px;
+    width: 40%;
+    height: 100%;
+    border: solid 10px #657786;
+    background-color: #AAB8C2;
+    padding: 40px;
+    justify-items: auto;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    white-space: pre-line;
 }
 
-.arrow {
-    display: flex;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    padding: 40px;
-    border: solid 1px black;
-    justify-content: space-evenly;
-    background-color: white;
-    font-size: 50px;
-}
