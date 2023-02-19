@@ -384,8 +384,6 @@ function randomTwo() {
     };
     gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
     gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
-    gameVars.emptyState[initIndexOne[0] + " " + initIndexOne[1]] = 1;
-    gameVars.emptyState[initIndexTwo[0] + " " + initIndexTwo[1]] = 1;
 };
 
 function checkFullBoard() {
