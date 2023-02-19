@@ -8,7 +8,7 @@ const testing = false;
 let gameVars = {
     boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "0";
-    emptyState: false,
+    emptyState: true,
     score: 0,
     numColor: {
         "" : "white",
@@ -90,16 +90,16 @@ function handleArrowClick(e) {
 
 function swipeLeft() {
     const preArray = gameVars.boardArray;
-    //console.log(JSON.parse(JSON.stringify(preArray)));
+    console.log(JSON.parse(JSON.stringify(preArray)));
     flushLeft();
-    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray))); //To ask: need to use this to show current state of an object, else it will show last state of execution
+    console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray))); //To ask: need to use this to show current state of an object, else it will show last state of execution
     //console.log("Post-First-Flush: ", gameVars.boardArray);
     mergeLeft();
-    //console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
+    console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
     flushLeft();
-    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
+    console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
     addTwo();
-    //console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
+    console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
 };
 
 
