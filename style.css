@@ -82,3 +82,8 @@ div {
     background-color: white;
     font-size: 50px;
 }
+
+.score {
+    font-size:20;
+    border: solid 5px #AAB8C2;
+}

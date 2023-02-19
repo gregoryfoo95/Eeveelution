@@ -365,10 +365,10 @@ function identifyID() {
 //Function for testing, delete later
 function boardTesting() {
     gameVars.boardArray = [
-        [1024,2,1024,2],
-        [2,4,2,2],
-        [2,8,32,32],
-        [2,8,16,2]
+        ["",2,"",2],
+        [2,"","",2],
+        [2,8,"",32],
+        [2,8,"",2]
     ];
 }
 
