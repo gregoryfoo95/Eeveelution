@@ -4,12 +4,13 @@ const board_width = 4;
 const directions = ["left", "right", "up", "down"];
 const dirSymbols = ["←","→","↑","↓"];
 const fixedInputs = [2,4,8,16,32,64,128,256,512,1024,2048];
-const testing = true;
+const testing = false;
 //* Game Variables *//
 let gameVars = {
     boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "-1";
     emptyState: {},
+    score: 0,
     numColor: {
         "" : "white",
         "2": "lightblue",
@@ -161,6 +162,7 @@ function mergeLeft() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
                 gameVars.boardArray[i][j+1] = "";
+                score += gameVars.boardArray[i][j];
             };
         };
     };
@@ -205,6 +207,7 @@ function mergeRight() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
                 gameVars.boardArray[i][j-1] = "";
+                score += gameVars.boardArray[i][j];
             };
         };
     };
@@ -246,6 +249,7 @@ function mergeUp() {
             if (newArray[i][j] === newArray[i][j+1]) {
                 newArray[i][j] += newArray[i][j+1];
                 newArray[i][j+1] = "";
+                score += newArray[i][j];
             };
         };
     };
@@ -288,6 +292,7 @@ function mergeDown() {
             if (newArray[i][j] === newArray[i][j-1]) {
                 newArray[i][j] += newArray[i][j-1];
                 newArray[i][j-1] = "";
+                score += newArray[i][j];
             };
         };
     };
@@ -415,7 +420,7 @@ function checkWinner() {
     for (let i = 0; i < gameVars.boardArray.length; i++) {
         for (let j = 0; j < gameVars.boardArray[i].length;j++) {
             if (gameVars.boardArray[i][j] === 2048) {
-                console.log("You Won!");
+                displayScore.textContent = "You Won!";
                 gameVars.gameStatus = 1;
             };
         };
@@ -446,7 +451,7 @@ function checkLose() {
     };
 
     if (gameOver) {
-        console.log("Good luck next time! Eevee has decided to look for a better pokemon trainer...");
+        displayScore.textContent = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
         gameVars.gameStatus = 0;
     };
 };
