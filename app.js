@@ -3,13 +3,12 @@
 const board_width = 4;
 const directions = ["left", "right", "up", "down"];
 const dirSymbols = ["←","→","↑","↓"];
-const fixedInputs = [2,4,8,16,32,64,128,256,512,1024,2048];
-const testing = false;
+const testing = true;
 //* Game Variables *//
 let gameVars = {
     boardArray: [],
-    gameStatus: "", // Progress - "", Win - "1", Loss - "-1";
-    emptyState: {},
+    gameStatus: "", // Progress - "", Win - "1", Loss - "0";
+    emptyState: false,
     score: 0,
     numColor: {
         "" : "white",
@@ -162,7 +161,7 @@ function mergeLeft() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
                 gameVars.boardArray[i][j+1] = "";
-                score += gameVars.boardArray[i][j];
+                gameVars.score += gameVars.boardArray[i][j];
             };
         };
     };
@@ -207,7 +206,7 @@ function mergeRight() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
                 gameVars.boardArray[i][j-1] = "";
-                score += gameVars.boardArray[i][j];
+                gameVars.score += gameVars.boardArray[i][j];
             };
         };
     };
@@ -249,7 +248,7 @@ function mergeUp() {
             if (newArray[i][j] === newArray[i][j+1]) {
                 newArray[i][j] += newArray[i][j+1];
                 newArray[i][j+1] = "";
-                score += newArray[i][j];
+                gameVars.score += newArray[i][j];
             };
         };
     };
@@ -292,7 +291,7 @@ function mergeDown() {
             if (newArray[i][j] === newArray[i][j-1]) {
                 newArray[i][j] += newArray[i][j-1];
                 newArray[i][j-1] = "";
-                score += newArray[i][j];
+                gameVars.score += newArray[i][j];
             };
         };
     };
@@ -328,8 +327,6 @@ function createBoard() {
             newBox.classList.add("box");
             newBox.id = i + " " + j;
             board.appendChild(newBox);
-            //Initiate emptyState of Board Array
-            gameVars.emptyState[i + " " + j] = 0;
         };
     };
     //Directional Buttons
@@ -368,10 +365,10 @@ function identifyID() {
 //Function for testing, delete later
 function boardTesting() {
     gameVars.boardArray = [
-        [1024,"",1024,""],
-        [2,"",2,2],
-        [2,"","",""],
-        [2,"","",""]
+        [1024,2,1024,2],
+        [2,4,2,2],
+        [2,8,32,32],
+        [2,8,16,2]
     ];
 }
 
@@ -392,17 +389,17 @@ function randomTwo() {
 };
 
 function checkFullBoard() {
-    let allBoxFilled = true;
-    for (let i = 0; i < game_width; i++ ) {
-        for (let j = 0; j < game_width; j++) {
+    gameVars.emptyState = false;
+    rowLoop: for (let i = 0; i < board_width; i++) {
+        columnLoop: for (let j = 0; j < board_width; j++) {
             if (gameVars.boardArray[i][j] === "") {
-                allBoxFilled = false;
-                break;
-            }
-        }
-    }
+                gameVars.emptyState = true;
+                break rowLoop;
+            };
+        };
+    };
 
-    if (allBoxFilled) {
+    if (gameVars.emptyState === false) {
         checkLose();
     };
 };
@@ -410,18 +407,28 @@ function checkFullBoard() {
 function addTwo() {
     let initIndex = identifyID();
     while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
-        initIndex = identifyID();
-        //Need to cater for break when board is fully populated
-    }
-    gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
+        checkFullBoard();
+        console.log(gameVars.gameStatus);
+        if (gameVars.emptyState === false) {
+            break;
+        } else {
+            initIndex = identifyID();
+        };
+    };
+
+    if (gameVars.gameStatus === "" && gameVars.emptyState === true) {
+        gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
+    };
 };
 
 function checkWinner() {
-    for (let i = 0; i < gameVars.boardArray.length; i++) {
-        for (let j = 0; j < gameVars.boardArray[i].length;j++) {
+    rowLoop: for (let i = 0; i < board_width; i++) {
+        columnLoop: for (let j = 0; j < board_width;j++) {
             if (gameVars.boardArray[i][j] === 2048) {
                 displayScore.textContent = "You Won!";
+                console.log("You won!");
                 gameVars.gameStatus = 1;
+                break rowLoop;
             };
         };
     };
@@ -430,28 +437,29 @@ function checkWinner() {
 function checkLose() {
     let gameOver = true;
     //Check from left to right for possible winning configurations
-    for (let i = 0; i < board_width; i++) {
-        for (let j = 0; j < board_width; j++) {
+    rowLoop: for (let i = 0; i < board_width; i++) {
+        columnLoop: for (let j = 0; j < board_width-1; j++) {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameOver = false;
-                break;
+                break rowLoop;
             };
         };
     };
     //Check from Top to bottom for possible winning configurations
     if (gameOver) {
-        for (let j = 0; j < board_width; j++) {
-            for (let i = 0; i < board_width; i++) {
+        rowLoop: for (let j = 0; j < board_width; j++) {
+            columnLoop: for (let i = 0; i < board_width-1; i++) {
                 if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
                     gameOver = false;
-                    break;
+                    break rowLoop;
                 };
             };
         };
     };
 
     if (gameOver) {
-        displayScore.textContent = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
+        displayScore.innerText = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
+        console.log("You lost!");
         gameVars.gameStatus = 0;
     };
 };
