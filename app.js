@@ -42,9 +42,10 @@ let gameVars = {
 
 
 //* Initial Cached Variables *//
-let displayScore = document.querySelector(".score");
+let displayScreen = document.querySelector(".screen");
 let boxes = document.querySelectorAll(".box");
-let resetBtn = document.querySelector(".reset");
+//let resetBtn = document.querySelector(".reset");
+let scoreBoard = document.querySelector(".score");
 let board = document.querySelector(".board");
 let boardDirections = document.querySelector(".direction");
 
@@ -89,17 +90,15 @@ function handleArrowClick(e) {
 };
 
 function swipeLeft() {
-    const preArray = gameVars.boardArray;
-    console.log(JSON.parse(JSON.stringify(preArray)));
     flushLeft();
-    console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray))); //To ask: need to use this to show current state of an object, else it will show last state of execution
+    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray))); //To ask: need to use this to show current state of an object, else it will show last state of execution
     //console.log("Post-First-Flush: ", gameVars.boardArray);
     mergeLeft();
-    console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
+    //console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
     flushLeft();
-    console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
-    setTimeout(addTwo,2000);
-    console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
+    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
+    addTwo();
+    //console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
 };
 
 
@@ -161,7 +160,11 @@ function mergeLeft() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
                 gameVars.boardArray[i][j+1] = "";
-                gameVars.score += gameVars.boardArray[i][j];
+                if (gameVars.boardArray[i][j] === "") {
+                    gameVars.score += 0;
+                } else {
+                    gameVars.score += parseInt(gameVars.boardArray[i][j]);
+                };
             };
         };
     };
@@ -206,7 +209,11 @@ function mergeRight() {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
                 gameVars.boardArray[i][j-1] = "";
-                gameVars.score += gameVars.boardArray[i][j];
+                if (gameVars.boardArray[i][j] === "") {
+                    gameVars.score += 0;
+                } else {
+                    gameVars.score += parseInt(gameVars.boardArray[i][j]);
+                };
             };
         };
     };
@@ -248,7 +255,11 @@ function mergeUp() {
             if (newArray[i][j] === newArray[i][j+1]) {
                 newArray[i][j] += newArray[i][j+1];
                 newArray[i][j+1] = "";
-                gameVars.score += newArray[i][j];
+                if (newArray[i][j] === "") {
+                    gameVars.score += 0;
+                } else {
+                    gameVars.score += parseInt(newArray[i][j]);
+                };
             };
         };
     };
@@ -291,7 +302,11 @@ function mergeDown() {
             if (newArray[i][j] === newArray[i][j-1]) {
                 newArray[i][j] += newArray[i][j-1];
                 newArray[i][j-1] = "";
-                gameVars.score += newArray[i][j];
+                if (newArray[i][j] === "") {
+                    gameVars.score += 0;
+                } else {
+                    gameVars.score += parseInt(newArray[i][j]);
+                };
             };
         };
     };
@@ -306,7 +321,8 @@ function renderBoard() {
             targetBox.textContent = gameVars.boardArray[i][j];
             targetBox.style.backgroundColor = gameVars.numColor[gameVars.boardArray[i][j]]
             if (gameVars.boardArray[i][j] !== "") {
-            targetBox.innerHTML = "<img src =" + gameVars.eeveeImages[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
+                targetBox.innerHTML = "<img src =" + gameVars.eeveeImages[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
+                scoreBoard.innerHTML = parseInt(gameVars.score);
             };
         };
     };
@@ -423,7 +439,7 @@ function checkWinner() {
     rowLoop: for (let i = 0; i < board_width; i++) {
         columnLoop: for (let j = 0; j < board_width;j++) {
             if (gameVars.boardArray[i][j] === 2048) {
-                displayScore.textContent = "You Won!";
+                displayScreen.textContent = "You Won!";
                 console.log("You won!");
                 gameVars.gameStatus = 1;
                 break rowLoop;
@@ -456,7 +472,7 @@ function checkLose() {
     };
 
     if (gameOver) {
-        displayScore.innerText = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
+        displayScreen.innerText = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
         console.log("You lost!");
         gameVars.gameStatus = 0;
     };

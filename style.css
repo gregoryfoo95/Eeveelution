@@ -7,22 +7,25 @@ body {
     flex-direction: row;
     gap: 10px;
 }
-.score {
+.screen {
     display: flex;
     justify-content: center;
-    border: solid 3px black;
+    border: solid 5px #AAB8C2;
     background-color: white;
     padding: 20px;
     width: 25%;
+    font-size: 18px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-.reset {
+.score {
     display: flex;
     justify-content: center;
-    border: solid 3px #14171A;
     background-color: white;
     padding: 20px;
     width: 5%;
+    font-size:20;
+    border: solid 5px #AAB8C2;
 }
 
 div {
@@ -81,9 +84,4 @@ div {
     justify-content: space-evenly;
     background-color: white;
     font-size: 50px;
-}
-
-.score {
-    font-size:20;
-    border: solid 5px #AAB8C2;
 }
