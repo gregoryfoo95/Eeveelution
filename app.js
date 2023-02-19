@@ -10,6 +10,12 @@ let gameVars = {
     gameStatus: "", // Progress - "", Win - "1", Loss - "0";
     emptyState: true,
     score: 0,
+    swipeDirections: {
+        touchStartX: 0,
+        touchEndX: 0,
+        touchStartY: 0,
+        touchEndY: 0,
+    },
     numColor: {
         "" : "white",
         "2": "lightblue",
@@ -57,8 +63,16 @@ arrowDir.forEach((arrow) => {
     arrow.addEventListener("click", handleArrowClick);
 });
 
-//* Functions *//
+document.addEventListener('touchstart', e => {
+  touchstartX = e.changedTouches[0].screenX
+})
 
+document.addEventListener('touchend', e => {
+  touchendX = e.changedTouches[0].screenX
+  checkDirection();
+});
+
+//* Functions *//
 function init() {
     createBoard();
     if (testing) {
@@ -67,6 +81,16 @@ function init() {
         randomTwo();
     };
     renderBoard();
+};
+
+function checkDirection() {
+  if (touchendX < touchstartX) {
+    swipeLeft();
+  };
+  
+  if (touchendX > touchstartX) {
+
+  }
 };
 
 function handleArrowClick(e) {
