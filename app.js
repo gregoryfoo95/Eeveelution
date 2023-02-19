@@ -3,7 +3,7 @@
 const board_width = 4;
 const directions = ["left", "right", "up", "down"];
 const dirSymbols = ["←","→","↑","↓"];
-const testing = true;
+const testing = false;
 //* Game Variables *//
 let gameVars = {
     boardArray: [],
