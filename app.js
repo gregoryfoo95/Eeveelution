@@ -1,22 +1,9 @@
-
 //* Constants *//
 const BOARD_WIDTH = 4;
 const DIRECTIONS = ["left", "right", "up", "down"];
 const DIRSYMBOLS = ["←","→","↑","↓"];
 const TESTING = false;
-//* Game Variables *//
-let gameVars = {
-    boardArray: [],
-    gameStatus: "", // Progress - "", Win - "1", Loss - "0";
-    emptyState: true,
-    score: 0,
-    swipeDirections: {
-        touchStartX: 0,
-        touchEndX: 0,
-        touchStartY: 0,
-        touchEndY: 0,
-    },
-    numColor: {
+const NUMTILECOLOR = {
         "" : "white",
         "2": "lightblue",
         "4": "lightyellow",
@@ -29,8 +16,8 @@ let gameVars = {
         "512": "greenyellow",
         "1024": "peachpuff",
         "2048": "blanchedalmond"
-    },
-    eeveeImages: {
+    };
+const EEVEEIMAGES = {
         "" : "",
         "2": "https://i.ibb.co/1rGW0yL/Pokeball.jpg",
         "4": "https://i.ibb.co/1fMk8dt/Eevee.png",
@@ -43,40 +30,67 @@ let gameVars = {
         "512": "https://i.ibb.co/Hh4HkNs/Leafeon.png",
         "1024": "https://i.ibb.co/xMYW6Cw/Faryeon.png",
         "2048": "https://i.ibb.co/bLxLGmG/Team-Eevee.png"
-    }
+    };
+
+//* Game Variables *//
+let gameVars = {
+    boardArray: [],
+    gameStatus: "", // Progress - "", Win - "1", Loss - "0";
+    emptyState: true,
+    score: 0,
+    swipeDirections: {
+        touchStartX: 0,
+        touchEndX: 0,
+        touchStartY: 0,
+        touchEndY: 0,
+    },
 };
 
 
-//* Initial Cached Variables *//
+//* Cached Variables *//
 let displayScreen = document.querySelector(".screen");
-let boxes = document.querySelectorAll(".box");
-//let resetBtn = document.querySelector(".reset");
+let tiles = document.querySelectorAll(".box");
+let resetBtn = document.querySelector(".reset");
 let scoreBoard = document.querySelector(".score");
-let board = document.querySelector(".board");
-let boardDirections = document.querySelector(".direction");
+let gameBoard = document.querySelector(".board");
+let startBtn = document.querySelector(".start");
+let banner = document.querySelector(".banner");
+let form = document.querySelector("form");
 
-//* Initialization *//
 init();
+
 //* Event Listeners *//
-/* let arrowDir = document.querySelectorAll(".arrow");
-arrowDir.forEach((arrow) => {
-    arrow.addEventListener("click", handleArrowClick);
-}); */
-
-window.addEventListener("keydown", handleKeyPress);
-
-document.addEventListener('touchstart', e => {
+startBtn.addEventListener("click", handleStartPress);
+document.addEventListener("keydown", handleKeyPress);
+resetBtn.addEventListener("click", handleResetPress);
+/* document.addEventListener('touchstart', e => {
     gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
     gameVars.swipeDirections.touchStartY = e.changedTouches[0].screenY;
-})
+});
 
 document.addEventListener('touchend', e => {
   gameVars.swipeDirections.touchEndX = e.changedTouches[0].screenX;
   gameVars.swipeDirections.touchEndY = e.changedTouches[0].screenY;
   checkDirection();
-});
+}); */
 
 //* Functions *//
+
+const render = {
+    board() {
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                const targetBox = document.getElementById(i + " " + j);
+                targetBox.textContent = gameVars.boardArray[i][j];
+                targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
+                if (gameVars.boardArray[i][j] !== "") {
+                    targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
+                    scoreBoard.innerHTML = parseInt(gameVars.score);
+                };
+            };
+        };
+    },
+}
 function init() {
     createBoard();
     if (TESTING) {
@@ -87,7 +101,7 @@ function init() {
     renderBoard();
 };
 
-function checkDirection() {
+/* function checkDirection() {
   if (gameVars.swipeDirections.touchEndX < gameVars.swipeDirections.touchStartX) {
     swipeLeft();
   };
@@ -100,12 +114,40 @@ function checkDirection() {
   if (gameVars.swipeDirections.touchEndY > gameVars.swipeDirections.touchStartY) {
     swipeUp();
   };
+}; */
+function handleStartPress(e) {
+    e.preventDefault();
+    if (gameBoard.style.display === "none") {
+        gameBoard.style.display = "grid";
+        banner.style.display = "flex";
+        form.style.display = "none";
+        
+    } else {
+        gameBoard.style.display = "none";
+    };
 };
+
+function handleResetPress(e) {
+    e.preventDefault();
+    gameVars = {
+    boardArray: [
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+    ],
+    gameStatus: "", // Progress - "", Win - "1", Loss - "0";
+    emptyState: true,
+    score: 0,
+    };
+    randomTwo();
+    renderBoard();
+};
+
 
 function handleKeyPress(e) {
     e.preventDefault();
-    let clicked = e.keyCode;
-    console.log(clicked);
+    const clicked = e.keyCode;
     switch(clicked) {
         case 37:
             swipeLeft();
@@ -123,52 +165,11 @@ function handleKeyPress(e) {
     renderBoard();
 };
 
-/* function handleArrowClick(e) {
-    e.preventDefault();
-    let clicked = e.currentTarget.id;
-    switch(clicked) {
-        case "left":
-            swipeLeft();
-            break;
-        case "right":
-            swipeRight();
-            break;
-        case "up":
-            swipeUp();
-            break;
-        case "down":
-            swipeDown();
-            break;
-    };
-    renderBoard();
-}; */
-
 function swipeLeft() {
     flushLeft();
-    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray))); //To ask: need to use this to show current state of an object, else it will show last state of execution
-    //console.log("Post-First-Flush: ", gameVars.boardArray);
     mergeLeft();
-    //console.log("Post-Merge: ", JSON.parse(JSON.stringify(gameVars.boardArray)));
     flushLeft();
-    //console.log("Post-Flush", JSON.parse(JSON.stringify(gameVars.boardArray)));
     addTwo();
-    //console.log("Final ", JSON.parse(JSON.stringify(gameVars.boardArray)));
-};
-
-
-function equals(a,b) {
-    if (a === b) return true;
-
-    if (!a || !b || (typeof a !== 'object' && typeof b !== 'object'))
-        return a === b;
-
-    if (a.prototype !== b.prototype) return false;
-
-    const keys = Object.keys(a);
-    if (keys.length !== Object.keys(b).length) return false;
-
-    return keys.every(k => equals(a[k], b[k]));
-
 };
 
 function flushLeft() {
@@ -189,24 +190,8 @@ function flushLeft() {
         };
         bigArray.push(subArray);
     };
-    console.log("From within flushleft:", bigArray);
     gameVars.boardArray = bigArray;
 };
-
-
-
-/* function flushLeft() {
-    for (let i=0;i<board_width;i++) {
-        for (let j=0;j<board_width-1;j++) {
-            if (gameVars.boardArray[i][j] !== "") {
-                continue;
-            } else if (gameVars.boardArray[i][j] === "") {
-                gameVars.boardArray[i][j] = gameVars.boardArray[i][j+1];
-                gameVars.boardArray[i][j+1] = "";
-            };
-        };
-    };
-}; */
 
 function mergeLeft() {
     for (let i=0;i<BOARD_WIDTH;i++) {
@@ -373,20 +358,20 @@ function renderBoard() {
         for (let j=0;j<BOARD_WIDTH;j++) {
             const targetBox = document.getElementById(i + " " + j);
             targetBox.textContent = gameVars.boardArray[i][j];
-            targetBox.style.backgroundColor = gameVars.numColor[gameVars.boardArray[i][j]]
+            targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
             if (gameVars.boardArray[i][j] !== "") {
-                targetBox.innerHTML = "<img src =" + gameVars.eeveeImages[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
-                scoreBoard.innerHTML = parseInt(gameVars.score);
+                targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
+                scoreBoard.innerHTML = `${document.querySelector(".name").textContent}'s Score: ${parseInt(gameVars.score)}`;
             };
         };
     };
 };
 
-function renderMessage() {
+function welcome() {
 
 }
 
-function createBoard() {
+function createBoard(e) {
     //Main Board
     for (let i=0;i<BOARD_WIDTH;i++) {
         gameVars.boardArray[i] = [];
@@ -396,17 +381,9 @@ function createBoard() {
             const newBox = document.createElement("span");
             newBox.classList.add("box");
             newBox.id = i + " " + j;
-            board.appendChild(newBox);
+            gameBoard.appendChild(newBox);
         };
     };
-/*     //Directional Buttons
-    for (let i=0; i<directions.length;i++) {
-        const newDirection = document.createElement("span");
-        newDirection.classList.add("arrow");
-        newDirection.id = directions[i];
-        newDirection.textContent = dirSymbols[i];
-        boardDirections.appendChild(newDirection);
-    };  */ 
 };
 
 function transpose(matrix) {

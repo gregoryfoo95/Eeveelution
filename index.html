@@ -9,12 +9,21 @@
     <link href='https://fonts.googleapis.com/css?family=Nova Flat' rel='stylesheet'>
     <script defer src = "app.js"></script>
 </head>
-<div class="banner">
+<div class="banner" style="display:none">
     <span class = "screen">EEVEELUTION</span>
     <span class = "score"></span>
+    <span class = "reset">Restart</span>
 </div>
 <body>
-    <div class = "board"></div>
+    <div class = "board" style="display:none" ></div>
+
+    <form>
+        <h1 class="title">Welcome to EEVEELUTION!</h1>
+        <input class="name" placeholder="Enter your pokemon trainer's name"/>
+        <button class="start" type="submit">Start Game!</button>
+        <h2 class="credits">Developed by Gregory Foo, <a href="https://github.com/gregoryfoo95/2048_Game">GitHub</a></h2>
+    </form>
+
     <div class="instruction">
         <h2>How to play: Use your arrow keys to move the tiles.
 
