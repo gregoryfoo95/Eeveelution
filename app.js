@@ -501,10 +501,13 @@ startBtn.addEventListener("click", handlers.handleStartPress);
 resetBtn.addEventListener("click", handlers.handleResetPress);
 
 
-swipedetect(el, function(swipedir){
-    if (swipedir =='left')
-        alert('You just swiped left!')
-});
+swipedetect(document, function(swipedir){
+    if (swipedir =='left') {
+        tileAction.swipeLeft();
+    }
+
+    }
+);
 
 function swipedetect(el, callback){
   
