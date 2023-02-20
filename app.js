@@ -62,9 +62,7 @@ let form = document.querySelector("form");
 let inputField  = document.querySelector(".playerName");
 
 
-//* Event Listeners *//
-startBtn.addEventListener("click", handlers.handleStartPress);
-resetBtn.addEventListener("click", handlers.handleResetPress);
+
 /* document.addEventListener('touchstart', e => {
     gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
     gameVars.swipeDirections.touchStartY = e.changedTouches[0].screenY;
@@ -261,7 +259,7 @@ const tileAction = {
     },
 
     flushUp() {
-        let newArray = mathfunc.transpose(gameVars.boardArray);
+        let newArray = mathFunc.transpose(gameVars.boardArray);
         let bigArray = [];
         for (let i=0;i<BOARD_WIDTH;i++) {
             let subArray = [];
@@ -278,11 +276,11 @@ const tileAction = {
             };
             bigArray.push(subArray);
         };
-        gameVars.boardArray = mathfunc.transpose(bigArray);
+        gameVars.boardArray = mathFunc.transpose(bigArray);
     },
 
     mergeUp() {
-        let newArray = mathfunc.transpose(gameVars.boardArray);
+        let newArray = mathFunc.transpose(gameVars.boardArray);
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 if (newArray[i][j] === newArray[i][j+1]) {
@@ -296,7 +294,7 @@ const tileAction = {
                 };
             };
         };
-        gameVars.boardArray = mathfunc.transpose(newArray);
+        gameVars.boardArray = mathFunc.transpose(newArray);
         gameAction.checkWinner();
     },
 
@@ -308,7 +306,7 @@ const tileAction = {
     },
 
     flushDown() {
-        let newArray = mathfunc.transpose(gameVars.boardArray);
+        let newArray = mathFunc.transpose(gameVars.boardArray);
         let bigArray = [];
         for (let i=0;i<BOARD_WIDTH;i++) {
             let subArray = [];
@@ -325,11 +323,11 @@ const tileAction = {
             };
             bigArray.push(subArray);
         };   
-        gameVars.boardArray = mathfunc.transpose(bigArray);
+        gameVars.boardArray = mathFunc.transpose(bigArray);
     },
 
     mergeDown() {
-        let newArray = mathfunc.transpose(gameVars.boardArray);
+        let newArray = mathFunc.transpose(gameVars.boardArray);
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=BOARD_WIDTH-1;j>0;j--) {
                 if (newArray[i][j] === newArray[i][j-1]) {
@@ -343,7 +341,7 @@ const tileAction = {
                 };
             };
         };
-        gameVars.boardArray = mathfunc.transpose(newArray);
+        gameVars.boardArray = mathFunc.transpose(newArray);
         gameAction.checkWinner();
     },
 
@@ -357,26 +355,26 @@ const tileAction = {
 
 const boardAction = {
     randomTwo() {
-        let initIndexOne = generateRandomIndices();
-        let initIndexTwo = generateRandomIndices();
+        let initIndexOne = mathFunc.generateRandomIndices();
+        let initIndexTwo = mathFunc.generateRandomIndices();
         while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
             && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
             && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
-            initIndexOne = generateRandomIndices();
-            initIndexTwo = generateRandomIndices();
+            initIndexOne = mathFunc.generateRandomIndices();
+            initIndexTwo = mathFunc.generateRandomIndices();
         };
         gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
         gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
     },
 
     addTwo() {
-        let initIndex = generateRandomIndices();
+        let initIndex = mathFunc.generateRandomIndices();
         while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
             this.checkFullBoard();
             if (gameVars.emptyState === false) {
                 break;
             } else {
-                initIndex = generateRandomIndices();
+                initIndex = mathFunc.generateRandomIndices();
             };
         };
 
@@ -397,7 +395,7 @@ const boardAction = {
         };
 
         if (gameVars.emptyState === false) {
-            checkLose();
+            gameAction.checkLose();
         };
     }
 };
@@ -471,7 +469,7 @@ const handlers = {
 };
 
 const mathFunc = {
-    transpose() {
+    transpose(matrix) {
         for (let i=0; i<matrix.length;i++) {
             for (let j=0; j<i; j++) {
                 const temp = matrix[i][j];
@@ -498,3 +496,59 @@ function boardTesting() {
     ];
 }
 
+//* Event Listeners *//
+startBtn.addEventListener("click", handlers.handleStartPress);
+resetBtn.addEventListener("click", handlers.handleResetPress);
+
+
+swipedetect(el, function(swipedir){
+    if (swipedir =='left')
+        alert('You just swiped left!')
+});
+
+function swipedetect(el, callback){
+  
+    var touchsurface = el,
+    swipedir,
+    startX,
+    startY,
+    distX,
+    distY,
+    threshold = 150, //required min distance traveled to be considered swipe
+    restraint = 100, // maximum distance allowed at the same time in perpendicular direction
+    allowedTime = 300, // maximum time allowed to travel that distance
+    elapsedTime,
+    startTime,
+    handleswipe = callback || function(swipedir){}
+  
+    touchsurface.addEventListener('touchstart', function(e){
+        var touchobj = e.changedTouches[0]
+        swipedir = 'none'
+        dist = 0
+        startX = touchobj.pageX
+        startY = touchobj.pageY
+        startTime = new Date().getTime() // record time when finger first makes contact with surface
+        e.preventDefault()
+    }, false)
+  
+    touchsurface.addEventListener('touchmove', function(e){
+        e.preventDefault() // prevent scrolling when inside DIV
+    }, false)
+  
+    touchsurface.addEventListener('touchend', function(e){
+        var touchobj = e.changedTouches[0]
+        distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
+        distY = touchobj.pageY - startY // get vertical dist traveled by finger while in contact with surface
+        elapsedTime = new Date().getTime() - startTime // get time elapsed
+        if (elapsedTime <= allowedTime){ // first condition for awipe met
+            if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){ // 2nd condition for horizontal swipe met
+                swipedir = (distX < 0)? 'left' : 'right' // if dist traveled is negative, it indicates left swipe
+            }
+            else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){ // 2nd condition for vertical swipe met
+                swipedir = (distY < 0)? 'up' : 'down' // if dist traveled is negative, it indicates up swipe
+            }
+        }
+        handleswipe(swipedir)
+        e.preventDefault()
+    }, false)
+}
