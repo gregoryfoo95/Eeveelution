@@ -138,11 +138,184 @@ const tileAction = {
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
-        this.addTwo();
+        boardAction.addTwo();
     },
 
-    
+    flushRight() {
+        let bigArray = [];
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            let subArray = [];
+            let empty = 0;
+            for (let j=BOARD_WIDTH-1;j>=0;j--) {
+                if (gameVars.boardArray[i][j] !== "") {
+                    subArray.unshift(gameVars.boardArray[i][j]);
+                } else {
+                    empty += 1;
+                };
+            };
+            for (let k = 0; k < empty; k++) {
+                subArray.unshift("");
+            };
+            bigArray.push(subArray);
+        };   
+
+        gameVars.boardArray = bigArray;
+    },
+
+    mergeRight() {
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=BOARD_WIDTH-1;j>0;j--) {
+                if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
+                    gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
+                    gameVars.boardArray[i][j-1] = "";
+                    if (gameVars.boardArray[i][j] === "") {
+                        gameVars.score += 0;
+                    } else {
+                        gameVars.score += parseInt(gameVars.boardArray[i][j]);
+                    };
+                };
+            };
+        };
+        checkWinner();
+    },
+
+    swipeRight() {
+        this.flushRight();
+        this.mergeRight();
+        this.flushRight();
+        boardAction.addTwo();
+    },
+
+    flushUp() {
+        let newArray = transpose(gameVars.boardArray);
+        let bigArray = [];
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            let subArray = [];
+            let empty = 0;
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                if (newArray[i][j] !== "") {
+                    subArray.push(newArray[i][j]);
+                } else {
+                    empty += 1;
+                };
+            };
+            for (let k = 0; k < empty; k++) {
+                subArray.push("");
+            };
+            bigArray.push(subArray);
+        };
+        gameVars.boardArray = transpose(bigArray);
+    },
+
+    mergeUp() {
+        let newArray = transpose(gameVars.boardArray);
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                if (newArray[i][j] === newArray[i][j+1]) {
+                    newArray[i][j] += newArray[i][j+1];
+                    newArray[i][j+1] = "";
+                    if (newArray[i][j] === "") {
+                        gameVars.score += 0;
+                    } else {
+                        gameVars.score += parseInt(newArray[i][j]);
+                    };
+                };
+            };
+        };
+        gameVars.boardArray = transpose(newArray);
+        checkWinner();
+    },
+
+    swipeUp() {
+        this.flushUp();
+        this.mergeUp();
+        this.flushUp();
+        boardAction.addTwo();
+    },
+
+    flushDown() {
+        let newArray = transpose(gameVars.boardArray);
+        let bigArray = [];
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            let subArray = [];
+            let empty = 0;
+            for (let j=BOARD_WIDTH-1;j>=0;j--) {
+                if (newArray[i][j] !== "") {
+                    subArray.unshift(newArray[i][j]);
+                } else {
+                    empty += 1;
+                };
+            };
+            for (let k = 0; k < empty; k++) {
+                subArray.unshift("");
+            };
+            bigArray.push(subArray);
+        };   
+        gameVars.boardArray = transpose(bigArray);
+    },
+
+    mergeDown() {
+        let newArray = transpose(gameVars.boardArray);
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=BOARD_WIDTH-1;j>0;j--) {
+                if (newArray[i][j] === newArray[i][j-1]) {
+                    newArray[i][j] += newArray[i][j-1];
+                    newArray[i][j-1] = "";
+                    if (newArray[i][j] === "") {
+                        gameVars.score += 0;
+                    } else {
+                        gameVars.score += parseInt(newArray[i][j]);
+                    };
+                };
+            };
+        };
+        gameVars.boardArray = transpose(newArray);
+        checkWinner();
+    },
+
+    swipeDown() {
+        this.flushDown();
+        this.mergeDown();
+        this.flushDown();
+        boardAction.addTwo();
+    }
 }
+
+const boardAction = {
+    randomTwo() {
+        let initIndexOne = generateRandomIndices();
+        let initIndexTwo = generateRandomIndices();
+        while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
+            && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
+            && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
+            initIndexOne = generateRandomIndices();
+            initIndexTwo = generateRandomIndices();
+        };
+        gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
+        gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
+    },
+
+    addTwo() {
+        let initIndex = generateRandomIndices();
+        while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
+            checkFullBoard();
+            console.log(gameVars.gameStatus);
+            if (gameVars.emptyState === false) {
+                break;
+            } else {
+                initIndex = generateRandomIndices();
+            };
+        };
+
+        if (gameVars.gameStatus === "" && gameVars.emptyState === true) {
+            gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
+        };
+    },
+
+
+}
+
+
 function init() {
     createBoard();
     if (TESTING) {
@@ -200,210 +373,22 @@ function handleResetPress(e) {
 
 function handleKeyPress(e) {
     e.preventDefault();
-    const clicked = e.keyCode;
+    const clicked = e.code;
     switch(clicked) {
-        case 37:
-            swipeLeft();
+        case "ArrowLeft":
+            tileAction.swipeLeft();
             break;
-        case 39:
-            swipeRight();
+        case "ArrowRight":
+            tileAction.swipeRight();
             break;
-        case 38:
-            swipeUp();
+        case "ArrowUp":
+            tileAction.swipeUp();
             break;
-        case 40:
-            swipeDown();
+        case "ArrowDown":
+            tileAction.swipeDown();
             break;
     };
     renderBoard();
-};
-
-function swipeLeft() {
-    flushLeft();
-    mergeLeft();
-    flushLeft();
-    addTwo();
-};
-
-function flushLeft() {
-    let bigArray = [];
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        let subArray = [];
-        let empty = 0;
-        for (let j=0;j<BOARD_WIDTH;j++) {
-            if (gameVars.boardArray[i][j] !== "") {
-                subArray.push(gameVars.boardArray[i][j]);
-            } else {
-                empty += 1;
-            };
-        };
-
-        for (let k = 0; k < empty; k++) {
-            subArray.push("");
-        };
-        bigArray.push(subArray);
-    };
-    gameVars.boardArray = bigArray;
-};
-
-function mergeLeft() {
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        for (let j=0;j<BOARD_WIDTH-1;j++) {
-            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
-                gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
-                gameVars.boardArray[i][j+1] = "";
-                if (gameVars.boardArray[i][j] === "") {
-                    gameVars.score += 0;
-                } else {
-                    gameVars.score += parseInt(gameVars.boardArray[i][j]);
-                };
-            };
-        };
-    };
-    checkWinner();
-};
-
-function swipeRight() {
-    console.log("First Step: ", gameVars.boardArray);
-    flushRight();
-    console.log("Post-Flush: ", gameVars.boardArray);
-    mergeRight();
-    console.log("Post-Merge: ", gameVars.boardArray);
-    flushRight();
-    console.log("Post-Flush: ", gameVars.boardArray);
-    addTwo();
-};
-
-function flushRight() {
-       let bigArray = [];
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        let subArray = [];
-        let empty = 0;
-        for (let j=BOARD_WIDTH-1;j>=0;j--) {
-            if (gameVars.boardArray[i][j] !== "") {
-                subArray.unshift(gameVars.boardArray[i][j]);
-            } else {
-                empty += 1;
-            };
-        };
-        for (let k = 0; k < empty; k++) {
-            subArray.unshift("");
-        };
-        bigArray.push(subArray);
-    };   
-
-    gameVars.boardArray = bigArray;
-};
-
-function mergeRight() {
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        for (let j=BOARD_WIDTH-1;j>0;j--) {
-            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
-                gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
-                gameVars.boardArray[i][j-1] = "";
-                if (gameVars.boardArray[i][j] === "") {
-                    gameVars.score += 0;
-                } else {
-                    gameVars.score += parseInt(gameVars.boardArray[i][j]);
-                };
-            };
-        };
-    };
-    checkWinner();
-};
-
-function swipeUp() {
-    flushUp();
-    mergeUp();
-    flushUp();
-    addTwo();
-};
-
-function flushUp() {
-    let newArray = transpose(gameVars.boardArray);
-          let bigArray = [];
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        let subArray = [];
-        let empty = 0;
-        for (let j=0;j<BOARD_WIDTH;j++) {
-            if (newArray[i][j] !== "") {
-                subArray.push(newArray[i][j]);
-            } else {
-                empty += 1;
-            };
-        };
-        for (let k = 0; k < empty; k++) {
-            subArray.push("");
-        };
-        bigArray.push(subArray);
-    };
-    gameVars.boardArray = transpose(bigArray);
-};
-
-function mergeUp() {
-    let newArray = transpose(gameVars.boardArray);
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        for (let j=0;j<BOARD_WIDTH;j++) {
-            if (newArray[i][j] === newArray[i][j+1]) {
-                newArray[i][j] += newArray[i][j+1];
-                newArray[i][j+1] = "";
-                if (newArray[i][j] === "") {
-                    gameVars.score += 0;
-                } else {
-                    gameVars.score += parseInt(newArray[i][j]);
-                };
-            };
-        };
-    };
-    gameVars.boardArray = transpose(newArray);
-    checkWinner();
-};
-
-function swipeDown() {
- flushDown();
- mergeDown();
- flushDown();
- addTwo();
-};
-
-function flushDown() {
-    let newArray = transpose(gameVars.boardArray);
-    let bigArray = [];
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        let subArray = [];
-        let empty = 0;
-        for (let j=BOARD_WIDTH-1;j>=0;j--) {
-            if (newArray[i][j] !== "") {
-                subArray.unshift(newArray[i][j]);
-            } else {
-                empty += 1;
-            };
-        };
-        for (let k = 0; k < empty; k++) {
-            subArray.unshift("");
-        };
-        bigArray.push(subArray);
-    };   
-    gameVars.boardArray = transpose(bigArray);
-};
-
-function mergeDown() {
-    let newArray = transpose(gameVars.boardArray);
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        for (let j=BOARD_WIDTH-1;j>0;j--) {
-            if (newArray[i][j] === newArray[i][j-1]) {
-                newArray[i][j] += newArray[i][j-1];
-                newArray[i][j-1] = "";
-                if (newArray[i][j] === "") {
-                    gameVars.score += 0;
-                } else {
-                    gameVars.score += parseInt(newArray[i][j]);
-                };
-            };
-        };
-    };
-    gameVars.boardArray = transpose(newArray);
-    checkWinner();
 };
 
 function renderBoard() {
@@ -452,16 +437,9 @@ function transpose(matrix) {
     return matrix;
 };
 
-function generateRandomIndex() {
-    return Math.floor(Math.random()*BOARD_WIDTH); 
-};
-
 //* Generate random values to be assigned to id of boxes
-function identifyID() {
-    let initIndex = [];
-    initIndex.push(generateRandomIndex());
-    initIndex.push(generateRandomIndex());
-    return [initIndex[0],initIndex[1]];
+function generateRandomIndices() {
+    return [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
 };
 
 //Function for testing, delete later
@@ -476,13 +454,13 @@ function boardTesting() {
 
 //* Initialize Two random boxes of "2"
 function randomTwo() {
-    let initIndexOne = identifyID();
-    let initIndexTwo = identifyID();
+    let initIndexOne = generateRandomIndices();
+    let initIndexTwo = generateRandomIndices();
     while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
         && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
         && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
-        initIndexOne = identifyID();
-        initIndexTwo = identifyID();
+        initIndexOne = generateRandomIndices();
+        initIndexTwo = generateRandomIndices();
     };
     gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
     gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
@@ -505,14 +483,14 @@ function checkFullBoard() {
 };
 
 function addTwo() {
-    let initIndex = identifyID();
+    let initIndex = generateRandomIndices();
     while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
         checkFullBoard();
         console.log(gameVars.gameStatus);
         if (gameVars.emptyState === false) {
             break;
         } else {
-            initIndex = identifyID();
+            initIndex = generateRandomIndices();
         };
     };
 

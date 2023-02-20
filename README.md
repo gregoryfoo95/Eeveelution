@@ -70,4 +70,5 @@ The MVC architectural framework had provided me a fundamental approach which I c
 - Include timer function to increase difficulty for user
 - Link up with database for scoreboard tracking
 - Perform animated movements for flush/merge and addition of new "Pokeball" tile.
+- Cater for Mobile Phone Styling and Touch Screen Swipe
 
