@@ -63,8 +63,8 @@ let inputField  = document.querySelector(".playerName");
 
 
 //* Event Listeners *//
-startBtn.addEventListener("click", handleStartPress);
-resetBtn.addEventListener("click", handleResetPress);
+startBtn.addEventListener("click", handlers.handleStartPress);
+resetBtn.addEventListener("click", handlers.handleResetPress);
 /* document.addEventListener('touchstart', e => {
     gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
     gameVars.swipeDirections.touchStartY = e.changedTouches[0].screenY;
@@ -78,8 +78,19 @@ document.addEventListener('touchend', e => {
 
 //* Functions *//
 
+function init() {
+    render.createBoard();
+    if (TESTING) {
+        boardTesting();
+    } else {
+        boardAction.randomTwo();
+    };
+    render.updateBoard();
+    document.addEventListener("keydown", handlers.handleArrowPress);
+};
+
 const render = {
-    board() {
+    updateBoard() {
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 const targetBox = document.getElementById(i + " " + j);
@@ -87,11 +98,74 @@ const render = {
                 targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
                 if (gameVars.boardArray[i][j] !== "") {
                     targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
-                    scoreBoard.innerHTML = parseInt(gameVars.score);
+                    scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
                 };
             };
         };
     },
+
+    createBoard() {
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            gameVars.boardArray[i] = [];
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                //Create Board DOM element
+                gameVars.boardArray[i][j] = "";
+                if (gameVars.resetStatus === 0) {
+                    const newBox = document.createElement("span");
+                    newBox.classList.add("box");
+                    newBox.id = i + " " + j;
+                    gameBoard.appendChild(newBox);
+                };
+            };
+        };
+    },
+
+
+};
+
+const gameAction = {
+    checkWinner() {
+        rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+        columnLoop: for (let j = 0; j < BOARD_WIDTH;j++) {
+            if (gameVars.boardArray[i][j] === 2048) {
+                displayScreen.textContent = "You won the Team Eevee Badge!";
+                gameVars.gameStatus = 1;
+                break rowLoop;
+            };
+        };
+        }
+    },
+
+    checkLose() {
+        let gameOver = true;
+        //Check from left to right for possible winning configurations
+        rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+            columnLoop: for (let j = 0; j < BOARD_WIDTH-1; j++) {
+                if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                    gameOver = false;
+                    break rowLoop;
+                };
+            };
+        };
+        //Check from Top to bottom for possible winning configurations
+        if (gameOver) {
+            rowLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
+                columnLoop: for (let i = 0; i < BOARD_WIDTH-1; i++) {
+                    if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
+                        gameOver = false;
+                        break rowLoop;
+                    };
+                };
+            };
+        };
+
+        if (gameOver) {
+            displayScreen.innerText = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
+            console.log("You lost!");
+            gameVars.gameStatus = 0;
+        };
+    },
+
 };
 
 const tileAction = {
@@ -131,7 +205,7 @@ const tileAction = {
                 };
             };
         };
-        checkWinner();
+        gameAction.checkWinner();
     },
 
     swipeLeft() {
@@ -176,7 +250,7 @@ const tileAction = {
                 };
             };
         };
-        checkWinner();
+        gameAction.checkWinner();
     },
 
     swipeRight() {
@@ -187,7 +261,7 @@ const tileAction = {
     },
 
     flushUp() {
-        let newArray = transpose(gameVars.boardArray);
+        let newArray = mathfunc.transpose(gameVars.boardArray);
         let bigArray = [];
         for (let i=0;i<BOARD_WIDTH;i++) {
             let subArray = [];
@@ -204,11 +278,11 @@ const tileAction = {
             };
             bigArray.push(subArray);
         };
-        gameVars.boardArray = transpose(bigArray);
+        gameVars.boardArray = mathfunc.transpose(bigArray);
     },
 
     mergeUp() {
-        let newArray = transpose(gameVars.boardArray);
+        let newArray = mathfunc.transpose(gameVars.boardArray);
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 if (newArray[i][j] === newArray[i][j+1]) {
@@ -222,8 +296,8 @@ const tileAction = {
                 };
             };
         };
-        gameVars.boardArray = transpose(newArray);
-        checkWinner();
+        gameVars.boardArray = mathfunc.transpose(newArray);
+        gameAction.checkWinner();
     },
 
     swipeUp() {
@@ -234,7 +308,7 @@ const tileAction = {
     },
 
     flushDown() {
-        let newArray = transpose(gameVars.boardArray);
+        let newArray = mathfunc.transpose(gameVars.boardArray);
         let bigArray = [];
         for (let i=0;i<BOARD_WIDTH;i++) {
             let subArray = [];
@@ -251,11 +325,11 @@ const tileAction = {
             };
             bigArray.push(subArray);
         };   
-        gameVars.boardArray = transpose(bigArray);
+        gameVars.boardArray = mathfunc.transpose(bigArray);
     },
 
     mergeDown() {
-        let newArray = transpose(gameVars.boardArray);
+        let newArray = mathfunc.transpose(gameVars.boardArray);
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=BOARD_WIDTH-1;j>0;j--) {
                 if (newArray[i][j] === newArray[i][j-1]) {
@@ -269,8 +343,8 @@ const tileAction = {
                 };
             };
         };
-        gameVars.boardArray = transpose(newArray);
-        checkWinner();
+        gameVars.boardArray = mathfunc.transpose(newArray);
+        gameAction.checkWinner();
     },
 
     swipeDown() {
@@ -298,8 +372,7 @@ const boardAction = {
     addTwo() {
         let initIndex = generateRandomIndices();
         while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
-            checkFullBoard();
-            console.log(gameVars.gameStatus);
+            this.checkFullBoard();
             if (gameVars.emptyState === false) {
                 break;
             } else {
@@ -312,20 +385,23 @@ const boardAction = {
         };
     },
 
+    checkFullBoard() {
+        gameVars.emptyState = false;
+        rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+            columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
+                if (gameVars.boardArray[i][j] === "") {
+                    gameVars.emptyState = true;
+                    break rowLoop;
+                };
+            };
+        };
 
-}
-
-
-function init() {
-    createBoard();
-    if (TESTING) {
-        boardTesting();
-    } else {
-        randomTwo();
-    };
-    renderBoard();
-    document.addEventListener("keydown", handleKeyPress);
+        if (gameVars.emptyState === false) {
+            checkLose();
+        };
+    }
 };
+
 
 /* function checkDirection() {
   if (gameVars.swipeDirections.touchEndX < gameVars.swipeDirections.touchStartX) {
@@ -341,106 +417,76 @@ function init() {
     swipeUp();
   };
 }; */
-function handleStartPress(e) {
-    e.preventDefault();
-    if (gameBoard.style.display === "none") {
-        gameBoard.style.display = "grid";
-        banner.style.display = "flex";
-        form.style.display = "none";
-        gameVars.formStatus = 1;
+
+const handlers = {
+    handleStartPress(e) {
+        e.preventDefault();
+        if (gameBoard.style.display === "none") {
+            gameBoard.style.display = "grid";
+            banner.style.display = "flex";
+            form.style.display = "none";
+            gameVars.formStatus = 1;
         
-    } else {
-        gameBoard.style.display = "none";
-    };
-    init();
+        } else {
+            gameBoard.style.display = "none";
+        };
+        init();
+    },
+
+    handleResetPress(e) {
+        e.preventDefault();
+        gameVars = {
+        boardArray: [],
+        gameStatus: "", // Progress - "", Win - "1", Loss - "0";
+        emptyState: true,
+        score: 0,
+        resetStatus: 1
+        };
+        render.createBoard();
+        boardAction.randomTwo();
+        render.updateBoard();
+        gameVars.resetStatus = 0;
+
+    },
+
+    handleArrowPress(e) {
+        e.preventDefault();
+        const clicked = e.code;
+        switch(clicked) {
+            case "ArrowLeft":
+                tileAction.swipeLeft();
+                break;
+            case "ArrowRight":
+                tileAction.swipeRight();
+                break;
+            case "ArrowUp":
+                tileAction.swipeUp();
+                break;
+            case "ArrowDown":
+                tileAction.swipeDown();
+                break;
+        };
+        render.updateBoard();
+    }
 };
 
-function handleResetPress(e) {
-    e.preventDefault();
-    gameVars = {
-    boardArray: [],
-    gameStatus: "", // Progress - "", Win - "1", Loss - "0";
-    emptyState: true,
-    score: 0,
-    resetStatus: 1
-    };
-    createBoard();
-    randomTwo();
-    renderBoard();
-    gameVars.resetStatus = 0;
-};
-
-
-function handleKeyPress(e) {
-    e.preventDefault();
-    const clicked = e.code;
-    switch(clicked) {
-        case "ArrowLeft":
-            tileAction.swipeLeft();
-            break;
-        case "ArrowRight":
-            tileAction.swipeRight();
-            break;
-        case "ArrowUp":
-            tileAction.swipeUp();
-            break;
-        case "ArrowDown":
-            tileAction.swipeDown();
-            break;
-    };
-    renderBoard();
-};
-
-function renderBoard() {
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        for (let j=0;j<BOARD_WIDTH;j++) {
-            const targetBox = document.getElementById(i + " " + j);
-            targetBox.textContent = gameVars.boardArray[i][j];
-            targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
-            if (gameVars.boardArray[i][j] !== "") {
-                targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
-                scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
+const mathFunc = {
+    transpose() {
+        for (let i=0; i<matrix.length;i++) {
+            for (let j=0; j<i; j++) {
+                const temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
             };
         };
-    };
-};
+        return matrix;
+    },
 
-function welcome() {
-
+    generateRandomIndices() {
+        return [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
+    }
 }
 
-function createBoard(e) {
-    //Main Board
-    for (let i=0;i<BOARD_WIDTH;i++) {
-        gameVars.boardArray[i] = [];
-        for (let j=0;j<BOARD_WIDTH;j++) {
-            //Create Board DOM element
-            gameVars.boardArray[i][j] = "";
-            if (gameVars.resetStatus === 0) {
-                const newBox = document.createElement("span");
-                newBox.classList.add("box");
-                newBox.id = i + " " + j;
-                gameBoard.appendChild(newBox);
-            };
-        };
-    };
-};
-
-function transpose(matrix) {
-    for (let i=0; i<matrix.length;i++) {
-        for (let j=0; j<i; j++) {
-            const temp = matrix[i][j];
-            matrix[i][j] = matrix[j][i];
-            matrix[j][i] = temp;
-        };
-    };
-    return matrix;
-};
-
-//* Generate random values to be assigned to id of boxes
-function generateRandomIndices() {
-    return [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
-};
 
 //Function for testing, delete later
 function boardTesting() {
@@ -452,92 +498,3 @@ function boardTesting() {
     ];
 }
 
-//* Initialize Two random boxes of "2"
-function randomTwo() {
-    let initIndexOne = generateRandomIndices();
-    let initIndexTwo = generateRandomIndices();
-    while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
-        && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
-        && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
-        initIndexOne = generateRandomIndices();
-        initIndexTwo = generateRandomIndices();
-    };
-    gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
-    gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
-};
-
-function checkFullBoard() {
-    gameVars.emptyState = false;
-    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
-        columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
-            if (gameVars.boardArray[i][j] === "") {
-                gameVars.emptyState = true;
-                break rowLoop;
-            };
-        };
-    };
-
-    if (gameVars.emptyState === false) {
-        checkLose();
-    };
-};
-
-function addTwo() {
-    let initIndex = generateRandomIndices();
-    while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
-        checkFullBoard();
-        console.log(gameVars.gameStatus);
-        if (gameVars.emptyState === false) {
-            break;
-        } else {
-            initIndex = generateRandomIndices();
-        };
-    };
-
-    if (gameVars.gameStatus === "" && gameVars.emptyState === true) {
-        gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
-    };
-};
-
-function checkWinner() {
-    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
-        columnLoop: for (let j = 0; j < BOARD_WIDTH;j++) {
-            if (gameVars.boardArray[i][j] === 2048) {
-                displayScreen.textContent = "You Won!";
-                console.log("You won!");
-                gameVars.gameStatus = 1;
-                break rowLoop;
-            };
-        };
-    };
-};
-
-function checkLose() {
-    let gameOver = true;
-    //Check from left to right for possible winning configurations
-    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
-        columnLoop: for (let j = 0; j < BOARD_WIDTH-1; j++) {
-            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
-                gameOver = false;
-                break rowLoop;
-            };
-        };
-    };
-    //Check from Top to bottom for possible winning configurations
-    if (gameOver) {
-        rowLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
-            columnLoop: for (let i = 0; i < BOARD_WIDTH-1; i++) {
-                if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
-                    gameOver = false;
-                    break rowLoop;
-                };
-            };
-        };
-    };
-
-    if (gameOver) {
-        displayScreen.innerText = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
-        console.log("You lost!");
-        gameVars.gameStatus = 0;
-    };
-};
