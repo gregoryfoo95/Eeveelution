@@ -367,10 +367,12 @@ const boardAction = {
 
         for (let i = 0; i < BOARD_WIDTH; i++) {
             for (let j = 0; j < BOARD_WIDTH; j++) {
-                emptyTiles.push(i + " " + j);
+                if (gameVars.boardArray[i][j] === "") {
+                    emptyTiles.push(i + " " + j);
+                };
             };
         };
-
+        
         if (emptyTiles.length > 0) {
             indices = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
             gameVars.boardArray[indices.split(" ")[0]][indices.split(" ")[1]] = newTiles[Math.floor(Math.random() * newTiles.length)];
