@@ -2,6 +2,7 @@ body {
     background-color: #15202B;
     background-image: url("https://i.ibb.co/dt3kxnY/background11.jpg");
     /* background-image: url("https://i.ibb.co/VSyYZxY/background2.jpg"); */
+    padding-top: 2%;
 }
 
 .banner {
@@ -22,7 +23,6 @@ body {
     text-align: center;
     color:#633C15;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-   
 }
 
 .score {
@@ -118,7 +118,7 @@ form {
     border: solid 5px #679eca;
     font-weight: bolder;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-image: url("https://i.ibb.co/VSyYZxY/background2.jpg");
+    /*background-image: url("https://i.ibb.co/VSyYZxY/background2.jpg");*/
 }
 
 .playerName {

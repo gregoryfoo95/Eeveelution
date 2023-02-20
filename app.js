@@ -75,7 +75,8 @@ function init() {
     if (TESTING) {
         boardTesting();
     } else {
-        boardAction.randomTwo();
+        boardAction.addTwoFour();
+        boardAction.addTwoFour();
     };
     render.updateBoard();
     document.addEventListener("keydown", handlers.handleArrowPress);
@@ -347,19 +348,6 @@ const tileAction = {
 }
 
 const boardAction = {
-    randomTwo() {
-        let initIndexOne = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
-        let initIndexTwo = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
-        while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
-            && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
-            && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
-            initIndexOne = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
-            initIndexTwo = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
-        };
-        gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
-        gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
-    },
-
     addTwoFour() {
         let emptyTiles = [];
         let indices;
@@ -372,7 +360,7 @@ const boardAction = {
                 };
             };
         };
-        
+
         if (emptyTiles.length > 0) {
             indices = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
             gameVars.boardArray[indices.split(" ")[0]][indices.split(" ")[1]] = newTiles[Math.floor(Math.random() * newTiles.length)];
@@ -396,21 +384,6 @@ const boardAction = {
     }
 };
 
-
-/* function checkDirection() {
-  if (gameVars.swipeDirections.touchEndX < gameVars.swipeDirections.touchStartX) {
-    swipeLeft();
-  };
-  if (gameVars.swipeDirections.touchEndX > gameVars.swipeDirections.touchStartX) {
-    swipeRight();
-  };
-  if (gameVars.swipeDirections.touchEndY < gameVars.swipeDirections.touchStartY) {
-    swipeDown();
-  };
-  if (gameVars.swipeDirections.touchEndY > gameVars.swipeDirections.touchStartY) {
-    swipeUp();
-  };
-}; */
 
 const handlers = {
     handleStartPress(e) {
