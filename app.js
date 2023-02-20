@@ -2,7 +2,6 @@
 const BOARD_WIDTH = 4;
 const DIRECTIONS = ["left", "right", "up", "down"];
 const DIRSYMBOLS = ["←","→","↑","↓"];
-const TESTING = false;
 const NUMTILECOLOR = {
         "" : "white",
         "2": "lightblue",
@@ -32,7 +31,7 @@ const EEVEEIMAGES = {
         "2048": "https://i.ibb.co/bLxLGmG/Team-Eevee.png"
     };
 
-//* Game Variables *//
+//* Game Variables (Model)*//
 let gameVars = {
     boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "0";
@@ -40,11 +39,12 @@ let gameVars = {
     score: 0,
     playerName: "",
     resetStatus: 0,
-    formStatus: 1,
+    formStatus: 1
 };
 
 
 //* Cached Variables *//
+let body = document.querySelector('body');
 let displayScreen = document.querySelector(".screen");
 let tiles = document.querySelectorAll(".box");
 let resetBtn = document.querySelector(".reset");
@@ -55,31 +55,15 @@ let banner = document.querySelector(".banner");
 let form = document.querySelector("form");
 let inputField  = document.querySelector(".playerName");
 
-
-
-/* document.addEventListener('touchstart', e => {
-    gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
-    gameVars.swipeDirections.touchStartY = e.changedTouches[0].screenY;
-});
-
-document.addEventListener('touchend', e => {
-  gameVars.swipeDirections.touchEndX = e.changedTouches[0].screenX;
-  gameVars.swipeDirections.touchEndY = e.changedTouches[0].screenY;
-  checkDirection();
-}); */
-
 //* Functions *//
 
 function init() {
     render.createBoard();
-    if (TESTING) {
-        boardTesting();
-    } else {
-        boardAction.addTwoFour();
-        boardAction.addTwoFour();
-    };
+    boardAction.addTwoFour();
+    boardAction.addTwoFour();
     render.updateBoard();
     document.addEventListener("keydown", handlers.handleArrowPress);
+    body.style.background = `url("https://i.ibb.co/dt3kxnY/background11.jpg")`;
 };
 
 const render = {
@@ -201,10 +185,11 @@ const tileAction = {
     },
 
     swipeLeft() {
+        const prevArray = gameVars.boardArray;
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
-        boardAction.addTwoFour();
+        boardAction.checkNoMove(prevArray);
     },
 
     flushRight() {
@@ -246,10 +231,11 @@ const tileAction = {
     },
 
     swipeRight() {
+        const prevArray = gameVars.boardArray;
         this.flushRight();
         this.mergeRight();
         this.flushRight();
-        boardAction.addTwoFour();
+        boardAction.addTwoFour(prevArray);
     },
 
     flushUp() {
@@ -293,10 +279,11 @@ const tileAction = {
     },
 
     swipeUp() {
+        const prevArray = gameVars.boardArray;
         this.flushUp();
         this.mergeUp();
         this.flushUp();
-        boardAction.addTwoFour();
+        boardAction.addTwoFour(prevArray);
     },
 
     flushDown() {
@@ -340,10 +327,11 @@ const tileAction = {
     },
 
     swipeDown() {
+        const prevArray = gameVars.boardArray;
         this.flushDown();
         this.mergeDown();
         this.flushDown();
-        boardAction.addTwoFour();
+        boardAction.addTwoFour(prevArray);
     }
 }
 
@@ -380,6 +368,17 @@ const boardAction = {
 
         if (gameVars.emptyState === false) {
             gameAction.checkLose();
+        };
+    },
+
+    checkNoMove(prevArray) {
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
+                    this.addTwoFour();
+                    break;
+                };
+            };
         };
     }
 };

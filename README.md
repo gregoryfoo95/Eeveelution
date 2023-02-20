@@ -31,16 +31,18 @@ The goal of the game is to attain the "Team Eevee" badge, with a scoreboard atta
 ## Wireframe Sketch & User Story
 ![Initial Sketch](https://github.com/gregoryfoo95/2048_Game/blob/main/Ideation/Initial%20Wireframe.png?raw=true)
 
-| As a User, I ...                         |                 and this happens!    
-| :--------------------------------------- |:-----------------------------------------------|
-| load the browser page                    |  observe a board with two tiles of "Pokeballs"
-| press a keyboard arrow key               |  observe all tiles flush towards select direction
-| see a change in images                   |  similar neighbouring tiles merged and summed together
-|                                          |  score increases by summed value (points start from 2 till 2048 for   respective tiles)
-| see a random addition of "Pokeball" tile |  a new "Pokeball" tile is generated for continuation
-| see a "Team Eevee" tile generated        |  sees congratulatory message on the display board at the top
-| see zero available moves left            |  sees message notifying on the loss on the display board at the top 
-| restart the game                         |  starts a new game
+| As a User, I ...                              |                 and this happens!    
+| :---------------------------------------      |:-----------------------------------------------|
+| type my pokemon trainer usernames             |  fills in the input field with the desired name
+| click start game                              |  renders the gameboard and observe two filled tiles
+| press a keyboard arrow key                    |  observe all tiles flush/merge towards select direction
+| see a change in images                        |  similar neighbouring tiles merged and summed together
+|                                               |  score increases by summed value (points start from 2 till 2048 for respective tiles)
+| see a random addition of "Pokeball/Eevee" tile|  a new "Pokeball/Eevee" tile is generated because a physical flush/merge of tiles occurred
+| do not see a random addition of tiles         |  no physical move is possible with the chosen direction
+| see a "Team Eevee" tile generated             |  sees congratulatory message on the display board at the top
+| see zero available moves left                 |  sees message notifying on the loss on the display board at the top 
+| restart the game                              |  starts a new game
 
 ## Development Timeline and Approach
 
@@ -56,6 +58,7 @@ The game was designed using the Model-View-Controller (MVC) architectural framew
 
 ### Model
 
+The model refers to the game's data that is required to be tracked and hereby referred to as the "states". In Eeveelution, the states are tracked under the Javascript object, _gameVars_.
 ### View
 
 ### Controller
@@ -71,4 +74,5 @@ The MVC architectural framework had provided me a fundamental approach which I c
 - Link up with database for scoreboard tracking
 - Perform animated movements for flush/merge and addition of new "Pokeball" tile.
 - Cater for Mobile Phone Styling and Touch Screen Swipe
+- Writing cleaner code logic
 
