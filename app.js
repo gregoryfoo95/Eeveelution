@@ -1,9 +1,9 @@
-"use strict";
+
 //* Constants *//
-const board_width = 4;
-const directions = ["left", "right", "up", "down"];
-const dirSymbols = ["←","→","↑","↓"];
-const testing = false;
+const BOARD_WIDTH = 4;
+const DIRECTIONS = ["left", "right", "up", "down"];
+const DIRSYMBOLS = ["←","→","↑","↓"];
+const TESTING = false;
 //* Game Variables *//
 let gameVars = {
     boardArray: [],
@@ -79,7 +79,7 @@ document.addEventListener('touchend', e => {
 //* Functions *//
 function init() {
     createBoard();
-    if (testing) {
+    if (TESTING) {
         boardTesting();
     } else {
         randomTwo();
@@ -173,10 +173,10 @@ function equals(a,b) {
 
 function flushLeft() {
     let bigArray = [];
-    for (let i=0;i<board_width;i++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
         let subArray = [];
         let empty = 0;
-        for (let j=0;j<board_width;j++) {
+        for (let j=0;j<BOARD_WIDTH;j++) {
             if (gameVars.boardArray[i][j] !== "") {
                 subArray.push(gameVars.boardArray[i][j]);
             } else {
@@ -209,8 +209,8 @@ function flushLeft() {
 }; */
 
 function mergeLeft() {
-    for (let i=0;i<board_width;i++) {
-        for (let j=0;j<board_width-1;j++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
+        for (let j=0;j<BOARD_WIDTH-1;j++) {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
                 gameVars.boardArray[i][j+1] = "";
@@ -238,10 +238,10 @@ function swipeRight() {
 
 function flushRight() {
        let bigArray = [];
-    for (let i=0;i<board_width;i++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
         let subArray = [];
         let empty = 0;
-        for (let j=board_width-1;j>=0;j--) {
+        for (let j=BOARD_WIDTH-1;j>=0;j--) {
             if (gameVars.boardArray[i][j] !== "") {
                 subArray.unshift(gameVars.boardArray[i][j]);
             } else {
@@ -258,8 +258,8 @@ function flushRight() {
 };
 
 function mergeRight() {
-    for (let i=0;i<board_width;i++) {
-        for (let j=board_width-1;j>0;j--) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
+        for (let j=BOARD_WIDTH-1;j>0;j--) {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j-1]) {
                 gameVars.boardArray[i][j] += gameVars.boardArray[i][j-1];
                 gameVars.boardArray[i][j-1] = "";
@@ -284,10 +284,10 @@ function swipeUp() {
 function flushUp() {
     let newArray = transpose(gameVars.boardArray);
           let bigArray = [];
-    for (let i=0;i<board_width;i++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
         let subArray = [];
         let empty = 0;
-        for (let j=0;j<board_width;j++) {
+        for (let j=0;j<BOARD_WIDTH;j++) {
             if (newArray[i][j] !== "") {
                 subArray.push(newArray[i][j]);
             } else {
@@ -304,8 +304,8 @@ function flushUp() {
 
 function mergeUp() {
     let newArray = transpose(gameVars.boardArray);
-    for (let i=0;i<board_width;i++) {
-        for (let j=0;j<board_width;j++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
+        for (let j=0;j<BOARD_WIDTH;j++) {
             if (newArray[i][j] === newArray[i][j+1]) {
                 newArray[i][j] += newArray[i][j+1];
                 newArray[i][j+1] = "";
@@ -331,10 +331,10 @@ function swipeDown() {
 function flushDown() {
     let newArray = transpose(gameVars.boardArray);
     let bigArray = [];
-    for (let i=0;i<board_width;i++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
         let subArray = [];
         let empty = 0;
-        for (let j=board_width-1;j>=0;j--) {
+        for (let j=BOARD_WIDTH-1;j>=0;j--) {
             if (newArray[i][j] !== "") {
                 subArray.unshift(newArray[i][j]);
             } else {
@@ -351,8 +351,8 @@ function flushDown() {
 
 function mergeDown() {
     let newArray = transpose(gameVars.boardArray);
-    for (let i=0;i<board_width;i++) {
-        for (let j=board_width-1;j>0;j--) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
+        for (let j=BOARD_WIDTH-1;j>0;j--) {
             if (newArray[i][j] === newArray[i][j-1]) {
                 newArray[i][j] += newArray[i][j-1];
                 newArray[i][j-1] = "";
@@ -369,8 +369,8 @@ function mergeDown() {
 };
 
 function renderBoard() {
-    for (let i=0;i<board_width;i++) {
-        for (let j=0;j<board_width;j++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
+        for (let j=0;j<BOARD_WIDTH;j++) {
             const targetBox = document.getElementById(i + " " + j);
             targetBox.textContent = gameVars.boardArray[i][j];
             targetBox.style.backgroundColor = gameVars.numColor[gameVars.boardArray[i][j]]
@@ -388,9 +388,9 @@ function renderMessage() {
 
 function createBoard() {
     //Main Board
-    for (let i=0;i<board_width;i++) {
+    for (let i=0;i<BOARD_WIDTH;i++) {
         gameVars.boardArray[i] = [];
-        for (let j=0;j<board_width;j++) {
+        for (let j=0;j<BOARD_WIDTH;j++) {
             //Create Board DOM element
             gameVars.boardArray[i][j] = "";
             const newBox = document.createElement("span");
@@ -421,7 +421,7 @@ function transpose(matrix) {
 };
 
 function generateRandomIndex() {
-    return Math.floor(Math.random()*board_width); 
+    return Math.floor(Math.random()*BOARD_WIDTH); 
 };
 
 //* Generate random values to be assigned to id of boxes
@@ -458,8 +458,8 @@ function randomTwo() {
 
 function checkFullBoard() {
     gameVars.emptyState = false;
-    rowLoop: for (let i = 0; i < board_width; i++) {
-        columnLoop: for (let j = 0; j < board_width; j++) {
+    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+        columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
             if (gameVars.boardArray[i][j] === "") {
                 gameVars.emptyState = true;
                 break rowLoop;
@@ -490,8 +490,8 @@ function addTwo() {
 };
 
 function checkWinner() {
-    rowLoop: for (let i = 0; i < board_width; i++) {
-        columnLoop: for (let j = 0; j < board_width;j++) {
+    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+        columnLoop: for (let j = 0; j < BOARD_WIDTH;j++) {
             if (gameVars.boardArray[i][j] === 2048) {
                 displayScreen.textContent = "You Won!";
                 console.log("You won!");
@@ -505,8 +505,8 @@ function checkWinner() {
 function checkLose() {
     let gameOver = true;
     //Check from left to right for possible winning configurations
-    rowLoop: for (let i = 0; i < board_width; i++) {
-        columnLoop: for (let j = 0; j < board_width-1; j++) {
+    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+        columnLoop: for (let j = 0; j < BOARD_WIDTH-1; j++) {
             if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
                 gameOver = false;
                 break rowLoop;
@@ -515,8 +515,8 @@ function checkLose() {
     };
     //Check from Top to bottom for possible winning configurations
     if (gameOver) {
-        rowLoop: for (let j = 0; j < board_width; j++) {
-            columnLoop: for (let i = 0; i < board_width-1; i++) {
+        rowLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
+            columnLoop: for (let i = 0; i < BOARD_WIDTH-1; i++) {
                 if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
                     gameOver = false;
                     break rowLoop;
