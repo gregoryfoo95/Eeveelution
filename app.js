@@ -522,20 +522,20 @@ gesuredZone.addEventListener('touchend', function(event) {
 }, false); 
 
 function handleGesure() {
-    var swiped = 'swiped: ';
     if (touchendX < touchstartX) {
-        alert(swiped + 'left!');
+        tileAction.swipeLeft();
+        render.updateBoard();
     }
     if (touchendX > touchstartX) {
-        alert(swiped + 'right!');
+        tileAction.swipeRight();
+        render.updateBoard();
     }
     if (touchendY < touchstartY) {
-        alert(swiped + 'down!');
+        tileAction.swipeDown();
+        render.updateBoard();
     }
     if (touchendY > touchstartY) {
-        alert(swiped + 'left!');
-    }
-    if (touchendY == touchstartY) {
-        alert('tap!');
+        tileAction.swipeUp();
+        render.updateBoard();
     }
 }
