@@ -38,6 +38,9 @@ let gameVars = {
     gameStatus: "", // Progress - "", Win - "1", Loss - "0";
     emptyState: true,
     score: 0,
+    playerName: "",
+    resetStatus: 0,
+    formStatus: 1,
     swipeDirections: {
         touchStartX: 0,
         touchEndX: 0,
@@ -56,12 +59,11 @@ let gameBoard = document.querySelector(".board");
 let startBtn = document.querySelector(".start");
 let banner = document.querySelector(".banner");
 let form = document.querySelector("form");
+let inputField  = document.querySelector(".playerName");
 
-init();
 
 //* Event Listeners *//
 startBtn.addEventListener("click", handleStartPress);
-document.addEventListener("keydown", handleKeyPress);
 resetBtn.addEventListener("click", handleResetPress);
 /* document.addEventListener('touchstart', e => {
     gameVars.swipeDirections.touchStartX = e.changedTouches[0].screenX;
@@ -90,6 +92,56 @@ const render = {
             };
         };
     },
+};
+
+const tileAction = {
+    flushLeft() {
+        let bigArray = [];
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            let subArray = [];
+            let empty = 0;
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                if (gameVars.boardArray[i][j] !== "") {
+                    subArray.push(gameVars.boardArray[i][j]);
+                } else {
+                    empty += 1;
+                };
+            };
+
+            for (let k = 0; k < empty; k++) {
+                subArray.push("");
+            };
+            
+            bigArray.push(subArray);
+        };
+        gameVars.boardArray = bigArray;
+    },
+
+    mergeLeft() {
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=0;j<BOARD_WIDTH-1;j++) {
+                if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                    gameVars.boardArray[i][j] += gameVars.boardArray[i][j+1];
+                    gameVars.boardArray[i][j+1] = "";
+                    if (gameVars.boardArray[i][j] === "") {
+                        gameVars.score += 0;
+                    } else {
+                        gameVars.score += parseInt(gameVars.boardArray[i][j]);
+                    };
+                };
+            };
+        };
+        checkWinner();
+    },
+
+    swipeLeft() {
+        this.flushLeft();
+        this.mergeLeft();
+        this.flushLeft();
+        this.addTwo();
+    },
+
+    
 }
 function init() {
     createBoard();
@@ -99,6 +151,7 @@ function init() {
         randomTwo();
     };
     renderBoard();
+    document.addEventListener("keydown", handleKeyPress);
 };
 
 /* function checkDirection() {
@@ -121,27 +174,27 @@ function handleStartPress(e) {
         gameBoard.style.display = "grid";
         banner.style.display = "flex";
         form.style.display = "none";
+        gameVars.formStatus = 1;
         
     } else {
         gameBoard.style.display = "none";
     };
+    init();
 };
 
 function handleResetPress(e) {
     e.preventDefault();
     gameVars = {
-    boardArray: [
-        ["","","",""],
-        ["","","",""],
-        ["","","",""],
-        ["","","",""],
-    ],
+    boardArray: [],
     gameStatus: "", // Progress - "", Win - "1", Loss - "0";
     emptyState: true,
     score: 0,
+    resetStatus: 1
     };
+    createBoard();
     randomTwo();
     renderBoard();
+    gameVars.resetStatus = 0;
 };
 
 
@@ -361,7 +414,7 @@ function renderBoard() {
             targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
             if (gameVars.boardArray[i][j] !== "") {
                 targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
-                scoreBoard.innerHTML = `${document.querySelector(".name").textContent}'s Score: ${parseInt(gameVars.score)}`;
+                scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
             };
         };
     };
@@ -378,10 +431,12 @@ function createBoard(e) {
         for (let j=0;j<BOARD_WIDTH;j++) {
             //Create Board DOM element
             gameVars.boardArray[i][j] = "";
-            const newBox = document.createElement("span");
-            newBox.classList.add("box");
-            newBox.id = i + " " + j;
-            gameBoard.appendChild(newBox);
+            if (gameVars.resetStatus === 0) {
+                const newBox = document.createElement("span");
+                newBox.classList.add("box");
+                newBox.id = i + " " + j;
+                gameBoard.appendChild(newBox);
+            };
         };
     };
 };

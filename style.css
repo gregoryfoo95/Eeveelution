@@ -104,7 +104,7 @@ form {
     gap: 10px;
     margin-top: 50px;
     padding: 1%;
-    width: 50%;
+    width: 70%;
     height: 100%;
     font-size: 30px;
     justify-items: auto;
@@ -113,7 +113,7 @@ form {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.name {
+.playerName {
     display: flex;
     background-color: white;
     padding: 10px;
@@ -122,7 +122,7 @@ form {
     height:50%;
     text-align: center;
     font-size: 30px;
-    color: white;
+    color: black;
     border: solid 5px #657786;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -152,4 +152,9 @@ form {
     font-size: 20px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-style: italic;
+}
+
+a:visited {
+    text-decoration: none;
+    color: orange;
 }
