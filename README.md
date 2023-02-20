@@ -42,12 +42,32 @@ The goal of the game is to attain the "Team Eevee" badge, with a scoreboard atta
 | see zero available moves left            |  sees message notifying on the loss on the display board at the top 
 | restart the game                         |  starts a new game
 
-## Development Timeline
+## Development Timeline and Approach
+
+The game was designed using the Model-View-Controller (MVC) architectural framework. A summarised developmental timeline is as shown below:
+
+| Achievables | Duration |
+| :--- | :----------- |
+| Generate and Render Board, Display Screen, Scoreboard and Tiles | 1 Day |
+| Generate random "Pokeball" Tile, flush and merge action | 1 Day |
+| Add peripheral logic to compute score and display messages to User | 0.5 Day |
+| Perform CSS styling and User Experience | 0.5 Day |
+| Stress-test for edge cases and subsequent troubleshooting | 1 Day |
+
+### Model
+
+### View
+
+### Controller
 
 ## Key Takeaways
 
-## Code Explanations
+The MVC architectural framework had provided me a fundamental approach which I can abide to, allowing my code to be more testable, reusable and extendable. This would serve to be an extremely paramount takeaway as I venture into large scale products after graduation from General Assembly's Software Engineering Immersive Course. I have wired my programming brain to adopt a Data-Centric mindset, in which the Data (state) is the single source of truth and the DOM is secondary to data manipulation. 
 
 ## Future Works
 
-## References
+- Allow the rendered gameboard to cater for scalable size increment/reduction on HTML and CSS
+- Include timer function to increase difficulty for user
+- Link up with database for scoreboard tracking
+- Perform animated movements for flush/merge and addition of new "Pokeball" tile.
+
