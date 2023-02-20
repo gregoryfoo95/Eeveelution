@@ -235,7 +235,7 @@ const tileAction = {
         this.flushRight();
         this.mergeRight();
         this.flushRight();
-        boardAction.addTwoFour(prevArray);
+        boardAction.checkNoMove(prevArray);
     },
 
     flushUp() {
@@ -283,7 +283,7 @@ const tileAction = {
         this.flushUp();
         this.mergeUp();
         this.flushUp();
-        boardAction.addTwoFour(prevArray);
+        boardAction.checkNoMove(prevArray);
     },
 
     flushDown() {
@@ -331,7 +331,7 @@ const tileAction = {
         this.flushDown();
         this.mergeDown();
         this.flushDown();
-        boardAction.addTwoFour(prevArray);
+        boardAction.checkNoMove(prevArray);
     }
 }
 
@@ -343,6 +343,7 @@ const boardAction = {
 
         for (let i = 0; i < BOARD_WIDTH; i++) {
             for (let j = 0; j < BOARD_WIDTH; j++) {
+                
                 if (gameVars.boardArray[i][j] === "") {
                     emptyTiles.push(i + " " + j);
                 };
@@ -353,6 +354,8 @@ const boardAction = {
             indices = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
             gameVars.boardArray[indices.split(" ")[0]][indices.split(" ")[1]] = newTiles[Math.floor(Math.random() * newTiles.length)];
         };
+
+        this.checkFullBoard();
     },
 
     checkFullBoard() {
@@ -409,9 +412,11 @@ const handlers = {
         resetStatus: 1
         };
         render.createBoard();
-        boardAction.randomTwo();
+        boardAction.addTwoFour()
+        boardAction.addTwoFour();
         render.updateBoard();
         gameVars.resetStatus = 0;
+        displayScreen.innerHTML = "EEVEELUTION";
 
     },
 
