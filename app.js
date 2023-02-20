@@ -95,7 +95,7 @@ const render = {
                 targetBox.textContent = gameVars.boardArray[i][j];
                 targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
                 if (gameVars.boardArray[i][j] !== "") {
-                    targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + " width=\"120px\" height=\"120px\"" + ">";
+                    targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">";
                     scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
                 };
             };
