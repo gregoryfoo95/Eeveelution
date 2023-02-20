@@ -203,7 +203,7 @@ const tileAction = {
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
-        boardAction.addTwo();
+        boardAction.addTwoFour();
     },
 
     flushRight() {
@@ -248,7 +248,7 @@ const tileAction = {
         this.flushRight();
         this.mergeRight();
         this.flushRight();
-        boardAction.addTwo();
+        boardAction.addTwoFour();
     },
 
     flushUp() {
@@ -295,7 +295,7 @@ const tileAction = {
         this.flushUp();
         this.mergeUp();
         this.flushUp();
-        boardAction.addTwo();
+        boardAction.addTwoFour();
     },
 
     flushDown() {
@@ -342,37 +342,38 @@ const tileAction = {
         this.flushDown();
         this.mergeDown();
         this.flushDown();
-        boardAction.addTwo();
+        boardAction.addTwoFour();
     }
 }
 
 const boardAction = {
     randomTwo() {
-        let initIndexOne = mathFunc.generateRandomIndices();
-        let initIndexTwo = mathFunc.generateRandomIndices();
+        let initIndexOne = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
+        let initIndexTwo = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
         while (initIndexOne[0] === initIndexTwo[0] && initIndexOne[1] === initIndexTwo[1] 
             && gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] !== "" 
             && gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] !== "") {
-            initIndexOne = mathFunc.generateRandomIndices();
-            initIndexTwo = mathFunc.generateRandomIndices();
+            initIndexOne = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
+            initIndexTwo = [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
         };
         gameVars.boardArray[initIndexOne[0]][initIndexOne[1]] = 2;
         gameVars.boardArray[initIndexTwo[0]][initIndexTwo[1]] = 2;
     },
 
-    addTwo() {
-        let initIndex = mathFunc.generateRandomIndices();
-        while (gameVars.boardArray[initIndex[0]][initIndex[1]] !== "") {
-            this.checkFullBoard();
-            if (gameVars.emptyState === false) {
-                break;
-            } else {
-                initIndex = mathFunc.generateRandomIndices();
+    addTwoFour() {
+        let emptyTiles = [];
+        let indices;
+        let newTiles = [2,4];
+
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                emptyTiles.push(i + " " + j);
             };
         };
 
-        if (gameVars.gameStatus === "" && gameVars.emptyState === true) {
-            gameVars.boardArray[initIndex[0]][initIndex[1]] = 2;
+        if (emptyTiles.length > 0) {
+            indices = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
+            gameVars.boardArray[indices.split(" ")[0]][indices.split(" ")[1]] = newTiles[Math.floor(Math.random() * newTiles.length)];
         };
     },
 
@@ -471,10 +472,6 @@ const mathFunc = {
             };
         };
         return matrix;
-    },
-
-    generateRandomIndices() {
-        return [Math.floor(Math.random()*BOARD_WIDTH), Math.floor(Math.random()*BOARD_WIDTH)];
     }
 }
 
@@ -493,49 +490,3 @@ function boardTesting() {
 startBtn.addEventListener("click", handlers.handleStartPress);
 resetBtn.addEventListener("click", handlers.handleResetPress);
 
-
-swipedetect(document, function(swipedir){
-    if (swipedir =='left') {
-        tileAction.swipeLeft();
-    }
-
-    }
-);
-
-
-var touchstartX = 0;
-var touchstartY = 0;
-var touchendX = 0;
-var touchendY = 0;
-
-var gesuredZone = document.getElementById('gesuredZone');
-
-gesuredZone.addEventListener('touchstart', function(event) {
-    touchstartX = event.screenX;
-    touchstartY = event.screenY;
-}, false);
-
-gesuredZone.addEventListener('touchend', function(event) {
-    touchendX = event.screenX;
-    touchendY = event.screenY;
-    handleGesure();
-}, false); 
-
-function handleGesure() {
-    if (touchendX < touchstartX) {
-        tileAction.swipeLeft();
-        render.updateBoard();
-    }
-    if (touchendX > touchstartX) {
-        tileAction.swipeRight();
-        render.updateBoard();
-    }
-    if (touchendY < touchstartY) {
-        tileAction.swipeDown();
-        render.updateBoard();
-    }
-    if (touchendY > touchstartY) {
-        tileAction.swipeUp();
-        render.updateBoard();
-    }
-}
