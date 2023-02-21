@@ -209,5 +209,11 @@ img {
     .instruction {
         width: 400px;
         height: 150px;
+        text-align: center;
+    }
+
+    form {
+        width: 500px;
+        height: 800px;
     }
 }
