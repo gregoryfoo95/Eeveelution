@@ -1,3 +1,5 @@
+import { Manager, Swipe } from 'hammerjs'
+
 //* Constants *//
 const BOARD_WIDTH = 4;
 const DIRECTIONS = ["left", "right", "up", "down"];
@@ -486,10 +488,15 @@ function boardTesting() {
 startBtn.addEventListener("click", handlers.handleStartPress);
 resetBtn.addEventListener("click", handlers.handleResetPress);
 
-const addSwipeListener = () => {
-    const mc = new Hammer.Manager(document.body);
-    mc.add( new Swipe({direction: Hammer.DIRECTION_HORIZONTAL,threshold: 0}))
-    mc.on("swipeleft", swipeLeft);
-    mc.on("swiperight",swipeRight);
-
-}
+document.add(new Swipe());
+document.hammer.on('swipe', (e) => {
+    switch (e.direction) {
+        case 4:
+            tileAction.swipeRight();
+            break;
+        
+        case 2:
+            tileAction.swipeLeft();
+            break;
+    }
+})
