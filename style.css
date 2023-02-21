@@ -97,7 +97,7 @@ form {
     row-gap: 10px;
     padding: 1%;
     width: 80%;
-    height: 100%;
+    height: 150%;
     font-size: 25px;
     justify-items: stretch;
     color: #14171A;
@@ -191,7 +191,7 @@ form {
     width: auto;
     height: auto;
     margin: auto;
-    font-size: 15px;
+    font-size: 25px;
 }
 
 
