@@ -39,7 +39,8 @@ let gameVars = {
     score: 0,
     playerName: "",
     resetStatus: 0,
-    formStatus: 1
+    formStatus: 1,
+    checkHorOrVert: ""
 };
 
 
@@ -63,7 +64,7 @@ function init() {
     boardAction.addTwoFour();
     render.updateBoard();
     document.addEventListener("keydown", handlers.handleArrowPress);
-    body.style.background = `url("https://i.ibb.co/dt3kxnY/background11.jpg")`;
+    //body.style.background = `url("https://i.ibb.co/dt3kxnY/background11.jpg")`;
 };
 
 const render = {
@@ -185,11 +186,13 @@ const tileAction = {
     },
 
     swipeLeft() {
+        gameVars.checkHorOrVert = "hor";
         const prevArray = gameVars.boardArray;
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
         boardAction.checkNoMove(prevArray);
+        gameVars.checkHorOrVert = "";
     },
 
     flushRight() {
@@ -231,11 +234,13 @@ const tileAction = {
     },
 
     swipeRight() {
+        gameVars.checkHorOrVert = "hor";
         const prevArray = gameVars.boardArray;
         this.flushRight();
         this.mergeRight();
         this.flushRight();
         boardAction.checkNoMove(prevArray);
+        gameVars.checkHorOrVert = "";
     },
 
     flushUp() {
@@ -279,11 +284,13 @@ const tileAction = {
     },
 
     swipeUp() {
+        gameVars.checkHorOrVert = "vert";
         const prevArray = gameVars.boardArray;
         this.flushUp();
         this.mergeUp();
         this.flushUp();
         boardAction.checkNoMove(prevArray);
+        gameVars.checkHorOrVert = "";
     },
 
     flushDown() {
@@ -327,11 +334,13 @@ const tileAction = {
     },
 
     swipeDown() {
+        gameVars.checkHorOrVert = "vert";
         const prevArray = gameVars.boardArray;
         this.flushDown();
         this.mergeDown();
         this.flushDown();
         boardAction.checkNoMove(prevArray);
+        gameVars.checkHorOrVert = "";
     }
 }
 
@@ -365,7 +374,7 @@ const boardAction = {
                 if (gameVars.boardArray[i][j] === "") {
                     gameVars.emptyState = true;
                     break rowLoop;
-                };
+                }
             };
         };
 
@@ -375,6 +384,10 @@ const boardAction = {
     },
 
     checkNoMove(prevArray) {
+        if (gameVars.checkHorOrVert === "vert") {
+            prevArray = mathFunc.transpose(prevArray);
+        };
+    
         rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
             columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                 if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
@@ -383,7 +396,7 @@ const boardAction = {
                 };
             };
         };
-    }
+    },
 };
 
 
@@ -426,15 +439,19 @@ const handlers = {
         switch(clicked) {
             case "ArrowLeft":
                 tileAction.swipeLeft();
+                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
             case "ArrowRight":
                 tileAction.swipeRight();
+                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
             case "ArrowUp":
                 tileAction.swipeUp();
+                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
             case "ArrowDown":
                 tileAction.swipeDown();
+                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
         };
         render.updateBoard();
