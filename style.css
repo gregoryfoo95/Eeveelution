@@ -149,22 +149,7 @@ form {
     font-style: italic;
 }
 
-a:visited {
-    text-decoration: none;
-    color: orange;
-}
 
-img {
-    width:70px;
-    height:70px;
-}
-
-@media only screen and (min-width: 768px) {
-    .instruction {
-        width: 400px;
-        height: 150px;
-    }
-}
 
 .legendHeader {
     text-align: center;
@@ -173,30 +158,56 @@ img {
 }
 
 
-.instruction {
+.footer {
     display: grid;
-    margin-top: 40px;
-    width: 80%;
-    height: 80%;
+    grid-template: repeat(1,1fr)/1fr
+}
+
+.instruction {
+    width: auto;
+    height: auto;
     border: solid 10px #432616;
     background-color: #E5D3B3;
-    padding: 40px;
-    font-size: 12px;
+    font-size: 60%;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     white-space: pre-line;
+
 }
 .legend {
     display: grid;
     color: white;
     font-size: 20px;
-    padding: 30px;  
-    width: 50%;
-    height:40%;
+    width: auto;
+    height: auto;
     border: dotted 5px white;
-    grid-template-columns: 33% 33% 33%;
-    grid-template-rows: 20% 20% 20% 20% 20%;
+    grid-template: repeat(3,1fr)/repeat(4,1fr);
     background-color: #14171A;
     text-align: center;
+}
+
+.legendHeader {
+    width: auto;
+    height: auto;
+    margin: auto;
+    font-size: 15px;
+}
+
+
+a:visited {
+    text-decoration: none;
+    color: orange;
+}
+
+img {
+    width: 70px;
+    height: 70px;
+}
+
+@media only screen and (min-width: 768px) {
+    .instruction {
+        width: 400px;
+        height: 150px;
+    }
 }
