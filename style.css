@@ -3,22 +3,29 @@ body {
     /* background-image: url("https://i.ibb.co/dt3kxnY/background11.jpg"); */
     /* background-image: url("https://i.ibb.co/VSyYZxY/background2.jpg"); */
     padding-top: 2%;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    row-gap: 10px;
+
 }
 
 .banner {
-    display:flex;
-    flex-direction: row;
-    margin: auto;
-    gap: 10px;
+    display: grid;
+    grid-template: 100%/ repeat(3, 1fr);
+    width: 100%;
+    min-height: 40px;
+    justify-items: stretch;
+    align-items: stretch;
+    column-gap: 5%;
 }
 .screen {
-    display: flex;
-    justify-content: center;
+    grid-column-start:1;
+    grid-column-end:2;
     border: solid 5px #633C15;
     background-color: white;
-    padding: 20px;
-    width: 100px;
-    height: 30px;
     font-size: 10px;
     font-weight: bold;
     text-align: center;
@@ -27,12 +34,9 @@ body {
 }
 
 .score {
-    display: flex;
-    justify-content: center;
+    grid-column-start: 2;
+    grid-column-end: 3;
     background-color: white;
-    padding: 20px;
-    width: 100px;
-    height: 30px;
     text-align:center;
     font-size:12px;
     font-weight:bold;
@@ -41,12 +45,9 @@ body {
 }
 
 .reset {
-    display: flex;
-    justify-content: center;
+    grid-column-start: 3;
+    grid-column-end: 4;
     background-color: #633C15;
-    padding: 20px;
-    width: 20px;
-    height: 30px;
     text-align: center;
     font-size: 15px;
     color: white;
@@ -61,7 +62,6 @@ div {
 
 .board {
     display: grid;
-    margin-top: 20px;
     width: 380px;
     height: 380px;
     border: solid 3px #14171A;
@@ -77,16 +77,14 @@ div {
 .box {
     display: flex;
     align-items: center;
-    width: 10%;
-    height: 10%;
-    padding: 35px;
+    width: 95%;
+    height: 95%;
     border: solid 5px #633C15;
     justify-content: space-evenly;
     background-color: white;
-    font-size: 50px;
+    font-size: 45px;
     font-weight: bold;
     font-family: 'Nova Flat';
-    background-size: cover;
     transition: width 0.5s, height 0.5s, background-color 0.25s, transform 1s;
 }
 

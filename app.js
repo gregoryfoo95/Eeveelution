@@ -392,7 +392,7 @@ const handlers = {
         e.preventDefault();
         if (gameBoard.style.display === "none") {
             gameBoard.style.display = "grid";
-            banner.style.display = "flex";
+            banner.style.display = "grid";
             form.style.display = "none";
             gameVars.formStatus = 1;
         
