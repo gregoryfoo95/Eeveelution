@@ -488,15 +488,14 @@ function boardTesting() {
 startBtn.addEventListener("click", handlers.handleStartPress);
 resetBtn.addEventListener("click", handlers.handleResetPress);
 
-document.add(new Swipe());
-document.hammer.on('swipe', (e) => {
-    switch (e.direction) {
-        case 4:
-            tileAction.swipeRight();
-            break;
-        
-        case 2:
-            tileAction.swipeLeft();
-            break;
+let manager = new Hammer.Manager(gameBoard);
+let Swipe = new Hammer.Swipe();
+manager.add(Swipe);
+
+manager.on('swipe', function(e) {
+    let direction = e.offsetDirection;
+
+    if (direction === 4) {
+        swipeLeft();
     }
-})
+});
