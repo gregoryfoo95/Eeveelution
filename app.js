@@ -1,5 +1,3 @@
-import { Manager, Swipe } from 'hammerjs'
-
 //* Constants *//
 const BOARD_WIDTH = 4;
 const DIRECTIONS = ["left", "right", "up", "down"];
@@ -494,8 +492,8 @@ manager.add(Swipe);
 
 manager.on('swipe', function(e) {
     let direction = e.offsetDirection;
-
+    console.log(direction);
     if (direction === 4) {
-        swipeLeft();
-    }
+        tileAction.swipeRight();
+    };
 });
