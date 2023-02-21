@@ -375,11 +375,11 @@ const boardAction = {
     },
 
     checkNoMove(prevArray) {
-        for (let i = 0; i < BOARD_WIDTH; i++) {
-            for (let j = 0; j < BOARD_WIDTH; j++) {
+        rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+            columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                 if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
                     this.addTwoFour();
-                    break;
+                    break rowLoop;
                 };
             };
         };
