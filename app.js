@@ -455,6 +455,26 @@ const handlers = {
                 break;
         };
         render.updateBoard();
+    },
+
+    handleSwipe(e) {
+        let direction = e.offsetDirection;
+        console.log(direction);
+        switch (direction) {
+            case 4:
+                tileAction.swipeRight();
+                break;
+            case 2:
+                tileAction.swipeLeft();
+                break;
+            case 8:
+                tileAction.swipeUp();
+                break;
+            case 16:
+                tileAction.swipeDown();
+                break;
+        };
+        render.updateBoard();
     }
 };
 
@@ -471,29 +491,10 @@ const mathFunc = {
     }
 }
 
-
-//Function for testing, delete later
-function boardTesting() {
-    gameVars.boardArray = [
-        ["",2,"",2],
-        [2,"","",2],
-        [2,8,"",32],
-        [2,8,"",2]
-    ];
-}
-
 //* Event Listeners *//
 startBtn.addEventListener("click", handlers.handleStartPress);
 resetBtn.addEventListener("click", handlers.handleResetPress);
-
-let manager = new Hammer.Manager(gameBoard);
-let Swipe = new Hammer.Swipe();
+const manager = new Hammer.Manager(gameBoard);
+const Swipe = new Hammer.Swipe();
 manager.add(Swipe);
-
-manager.on('swipe', function(e) {
-    let direction = e.offsetDirection;
-    console.log(direction);
-    if (direction === 4) {
-        tileAction.swipeRight();
-    };
-});
+manager.on('swipe', handlers.handleSwipe);
