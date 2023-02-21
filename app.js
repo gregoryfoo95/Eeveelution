@@ -486,3 +486,10 @@ function boardTesting() {
 startBtn.addEventListener("click", handlers.handleStartPress);
 resetBtn.addEventListener("click", handlers.handleResetPress);
 
+const addSwipeListener = () => {
+    const mc = new Hammer.Manager(document.body);
+    mc.add( new Swipe({direction: Hammer.DIRECTION_HORIZONTAL,threshold: 0}))
+    mc.on("swipeleft", swipeLeft);
+    mc.on("swiperight",swipeRight);
+
+}
