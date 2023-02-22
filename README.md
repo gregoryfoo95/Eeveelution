@@ -66,11 +66,10 @@ The **Model** refers to the game's data that is required to be tracked and hereb
 let gameVars = {
     boardArray: [],
     gameStatus: "",
-    emptyState: true,
-    score: 0,
+    emptyState: "",
+    score: "",
     playerName: "",
-    resetStatus: 0,
-    formStatus: 1,
+    resetStatus: "",
     checkHorOrVert: ""
 };
 ```

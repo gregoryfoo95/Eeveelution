@@ -34,12 +34,11 @@ const EEVEEIMAGES = {
 //* Game Variables (Model)*//
 let gameVars = {
     boardArray: [],
-    gameStatus: "", // Progress - "", Win - "1", Loss - "0";
-    emptyState: true,
-    score: 0,
+    gameStatus: "",
+    emptyState: "",
+    score: "",
     playerName: "",
-    resetStatus: 0,
-    formStatus: 1,
+    resetStatus: "",
     checkHorOrVert: ""
 };
 
@@ -59,6 +58,17 @@ let inputField  = document.querySelector(".playerName");
 //* Functions *//
 
 function init() {
+    gameVars = {
+        boardArray: [],
+        gameStatus: "", // Progress - "", Win - "1", Loss - "0";
+        emptyState: true,
+        score: 0,
+        playerName: "",
+        resetStatus: 0,
+        checkHorOrVert: ""
+    };
+
+    console.log(gameVars);
     render.createBoard();
     render.updateBoard();
     document.addEventListener("keydown", handlers.handleArrowPress);
@@ -414,7 +424,6 @@ const handlers = {
             gameBoard.style.display = "grid";
             banner.style.display = "grid";
             form.style.display = "none";
-            gameVars.formStatus = 1;
         
         } else {
             gameBoard.style.display = "none";
