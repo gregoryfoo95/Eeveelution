@@ -14,7 +14,10 @@ const NUMTILECOLOR = {
         "256": "cyan",
         "512": "greenyellow",
         "1024": "peachpuff",
-        "2048": "blanchedalmond"
+        "2048": "blanchedalmond",
+        "4096": "black",
+        "8192": "black",
+        "16384": "azure",
     };
 const EEVEEIMAGES = {
         "" : "",
@@ -28,7 +31,10 @@ const EEVEEIMAGES = {
         "256": "https://i.ibb.co/7J7K7D8/Glaceon.png",
         "512": "https://i.ibb.co/Hh4HkNs/Leafeon.png",
         "1024": "https://i.ibb.co/xMYW6Cw/Faryeon.png",
-        "2048": "https://i.ibb.co/bLxLGmG/Team-Eevee.png"
+        "2048": "https://i.ibb.co/bLxLGmG/Team-Eevee.png",
+        "4096": "https://i.ibb.co/XkTBbJq/gengar.jpg",
+        "8192": "https://i.ibb.co/dsvLxSN/Gengar2.png",
+        "16384": "https://i.ibb.co/XpSrXzs/Ditto.png"
     };
 
 //* Game Variables (Model)*//
@@ -82,8 +88,8 @@ const render = {
                 targetBox.textContent = gameVars.boardArray[i][j];
                 targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
                 if (gameVars.boardArray[i][j] !== "") {
-                    if (gameVars.boardArray[i][j] <= 2048) {
-                        targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">";
+                    if (gameVars.boardArray[i][j] <= 16384) {
+                        targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">" + "<div class=\"nums\">" + gameVars.boardArray[i][j] + "</div>" ;
                     }
                     scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
                 };
@@ -108,15 +114,49 @@ const render = {
 
 const gameAction = {
     checkWinner() {
+        let winnerTier = 0;
         rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
         columnLoop: for (let j = 0; j < BOARD_WIDTH;j++) {
-            if (gameVars.boardArray[i][j] === 2048) {
-                displayScreen.textContent = "You won the Team Eevee Badge!";
+            if (gameVars.boardArray[i][j] === 2048 && winnerTier === 0) {
+                winnerTier = 1;
                 gameVars.gameStatus = 1;
-                break rowLoop;
+                //break rowLoop;
+            };
+            
+            if (gameVars.boardArray[i][j] === 4096 && winnerTier < 2) {
+                winnerTier = 2;
+                gameVars.gameStatus = 1;
+                //break rowLoop;
+            };
+            
+            if (gameVars.boardArray[i][j] === 8192 && winnerTier < 3) {
+                winnerTier = 3;
+                gameVars.gameStatus = 1;
+                //break rowLoop;
+            };
+
+            if (gameVars.boardArray[i][j] === 16384 && winnerTier < 4) {
+                winnerTier = 4;
+                gameVars.gameStatus = 1;
+                //break rowLoop;
             };
         };
-        }
+        };
+
+        switch (winnerTier) {
+            case 1:
+                displayScreen.textContent = "You won the Team Eevee Badge!";
+                break;
+            case 2:
+                displayScreen.textContent = "Hey, stop it. You shouldn't go further...";
+                break;
+            case 3:
+                displayScreen.textContent = "Gengarr..... D.ii.eeee...";
+                break;
+            case 4:
+                displayScreen.textContent = "Close call, it's just a ditto. Well, there's no other pokemon here. Escape or continue? Your call.";
+                break;
+        };
     },
 
     checkLose() {
