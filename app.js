@@ -10,7 +10,7 @@ const NUMTILECOLOR = {
         "16": "yellow",
         "32": "dodgerblue",
         "64": "#1c1c1c",
-        "128": "lightpurple",
+        "128": "violet",
         "256": "cyan",
         "512": "greenyellow",
         "1024": "peachpuff",
