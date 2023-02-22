@@ -17,27 +17,26 @@ body {
 .banner {
     display: grid;
     grid-template: 100% / repeat(3, 1fr);
-    width: 320px;
+    width: 400px;
     min-height: 40px;
     justify-items: space-evenly;
     align-items: space-evenly;
-    column-gap: 5%;
+    column-gap: 2%;
 }
 .screen {
     grid-column-start:1;
     grid-column-end:2;
     border: solid 5px #633C15;
     font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    justify-content: stretch;
-    padding: 20px;
+    padding: 2px;
     color:#633C15;
     font-family: "Century Gothic", 'CenturyGothic', 'Geneva', 'AppleGothic', sans-serif;
     border-radius: 10px;
     font-weight: bold;
     background: linear-gradient(135deg, #DCE8E0 0%, #D2D8D6 100%);
     width: auto;
+    height: auto;
+    align-self: center;
     
 }
 
@@ -55,14 +54,13 @@ body {
     background: linear-gradient(135deg, #DCE8E0 0%, #D2D8D6 100%);
     padding: 20px;
     width: auto;
+    align-self: center;
 }
 
 .reset {
     grid-column-start: 3;
-    grid-column-end: 4;
-    background-color: #633C15;
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
     color: white;
     border: solid 1px #772F1A;
     border-radius: 10px;
@@ -71,6 +69,7 @@ body {
     background: linear-gradient(135deg, #B82E1F 0%, #F2C17D 100%);
     width: 60%;
     padding: 20px;
+    align-self:center;
 }
 
 div {
