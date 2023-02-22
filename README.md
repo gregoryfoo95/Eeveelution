@@ -569,6 +569,7 @@ const tileAction = {
 ```
 
 </details>
+
 # **Key Takeaways**
 
 The MVC architectural framework had provided me a fundamental approach which I can abide to, allowing my code to be more testable, reusable and extendable. This would serve to be an extremely paramount takeaway as I venture into large scale products after graduation from General Assembly's Software Engineering Immersive Course. I have wired my programming brain to adopt a Data-Centric mindset, in which the Data (state) is the single source of truth and the DOM is secondary to data manipulation. 
