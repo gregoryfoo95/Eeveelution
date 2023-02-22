@@ -52,8 +52,8 @@ The game was designed using the Model-View-Controller (MVC) architectural framew
 
 | Achievables | Duration |
 | :--- | :----------- |
-| Generate and Render Board, Display Screen, Scoreboard and Tiles | 1 Day |
-| Generate random "Pokeball" Tile, flush and merge action | 1 Day |
+| Generate and Render Game Board, Display Screen, Scoreboard and Tiles | 1 Day |
+| Generate random "Pokeball/Eevee" Tile, flush and merge action | 1 Day |
 | Add peripheral logic to compute score and display messages to User | 0.5 Day |
 | Perform CSS styling and User Experience | 0.5 Day |
 | Stress-test for edge cases and subsequent troubleshooting | 1 Day |
