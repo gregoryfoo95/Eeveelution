@@ -60,16 +60,16 @@ The game was designed using the Model-View-Controller (MVC) architectural framew
 
 ## **Model:**
 
-The **Model** refers to the game's data that is required to be tracked and hereby referred to as the "states". In Eeveelution, the states are tracked under the Javascript object, _gameVars_. The state variables include the tile positions on the board, game status (In progress/Win/Loss), tracker for empty positions on board, player's accumulated score, player's username, tracker for reset button pressed, tracker for form's rendering and a tracker for horizontal/vertical directions of player's movement. These state variables in _gameVars_ would be updated by the **Controller** during the game.
+The **Model** refers to the game's data that is required to be tracked and hereby referred to as the "states". In Eeveelution, the states are tracked under the Javascript object, _gameVars_. The state variables include the tile positions on the board, game status (In progress/Win/Loss), tracker for empty positions on board, player's accumulated score, player's username, tracker for reset button pressed, tracker for form's rendering and a tracker for horizontal/vertical directions of player's movement. These state variables in _gameVars_ would be updated by the **Controller** during the game. Below illustrates the intialized values of the state variables after _init()_ is executed.
 
 ```js
 let gameVars = {
     boardArray: [],
     gameStatus: "",
-    emptyState: "",
-    score: "",
+    emptyState: true,
+    score: 0,
     playerName: "",
-    resetStatus: "",
+    resetStatus: 0,
     checkHorOrVert: ""
 };
 ```
