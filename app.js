@@ -85,10 +85,9 @@ const render = {
     },
 
     createBoard() {
+        boardAction.initBoard();
         for (let i=0;i<BOARD_WIDTH;i++) {
-            gameVars.boardArray[i] = [];
             for (let j=0;j<BOARD_WIDTH;j++) {
-                gameVars.boardArray[i][j] = "";
                 if (gameVars.resetStatus === 0) {
                     const newBox = document.createElement("span");
                     newBox.classList.add("box");
@@ -97,9 +96,7 @@ const render = {
                 };
             };
         };
-    },
-
-
+    }
 };
 
 const gameAction = {
@@ -399,6 +396,15 @@ const boardAction = {
             };
         };
     },
+
+    initBoard() {
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            gameVars.boardArray[i] = [];
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                gameVars.boardArray[i][j] = "";
+            };
+        };
+    }
 };
 
 

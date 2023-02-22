@@ -1,4 +1,4 @@
-# 2048 (Eeveelution)!!
+# EEVEELUTION (2048 Spin-off)
 
 ## Project Background
 
@@ -35,7 +35,8 @@ The goal of the game is to attain the "Team Eevee" badge, with a scoreboard atta
 | :---------------------------------------      |:-----------------------------------------------|
 | type my pokemon trainer usernames             |  fills in the input field with the desired name
 | click start game                              |  renders the gameboard and observe two filled tiles
-| press a keyboard arrow key                    |  observe all tiles flush/merge towards select direction
+| press a keyboard arrow key (PC)               |  observe all tiles flush/merge towards select direction
+| swipe in a direction (Mobile)                 |  observe all tiles flush/merge towards select direction
 | see a change in images                        |  similar neighbouring tiles merged and summed together
 |                                               |  score increases by summed value (points start from 2 till 2048 for respective tiles)
 | see a random addition of "Pokeball/Eevee" tile|  a new "Pokeball/Eevee" tile is generated because a physical flush/merge of tiles occurred
@@ -58,7 +59,7 @@ The game was designed using the Model-View-Controller (MVC) architectural framew
 
 ### Model
 
-The model refers to the game's data that is required to be tracked and hereby referred to as the "states". In Eeveelution, the states are tracked under the Javascript object, _gameVars_. The state variables include the tile positions on the board, game status (In progress/Win/Loss), tracker for empty positions on board, player's accumulated score, player's username, tracker for reset button pressed, tracker for form's rendering and a tracker for horizontal/vertical directions of player's movement.
+The **Model** refers to the game's data that is required to be tracked and hereby referred to as the "states". In Eeveelution, the states are tracked under the Javascript object, _gameVars_. The state variables include the tile positions on the board, game status (In progress/Win/Loss), tracker for empty positions on board, player's accumulated score, player's username, tracker for reset button pressed, tracker for form's rendering and a tracker for horizontal/vertical directions of player's movement. These state variables in _gameVars_ would be updated by the **Controller** during the game.
 
 ```javascript
 //* Game Variables (Model)*//
@@ -75,6 +76,41 @@ let gameVars = {
 ```
 
 ### View
+The **View** is essentially what the user interacts with on the web browser. This is accomplished by using two rendering functions that were designed to cater for two scenarios: (1) Initial Render and (2) Post-User-Action Render. This is seen from _render.createBoard()_ and _render.updateBoard()_. _render.createBoard()_ depicts a fresh new board whenever the user initiates the game/resets the game while in play. _render.updateBoard()_ serves to update the tiles' position on the board after every user's turn.
+
+```javascript
+const render = {
+    updateBoard() {
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                const targetBox = document.getElementById(i + " " + j);
+                targetBox.textContent = gameVars.boardArray[i][j];
+                targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
+                if (gameVars.boardArray[i][j] !== "") {
+                    if (gameVars.boardArray[i][j] <= 2048) {
+                        targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">";
+                    }
+                    scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
+                };
+            };
+        };
+    },
+
+    createBoard() {
+        boardAction.initBoard();
+        for (let i=0;i<BOARD_WIDTH;i++) {
+            for (let j=0;j<BOARD_WIDTH;j++) {
+                if (gameVars.resetStatus === 0) {
+                    const newBox = document.createElement("span");
+                    newBox.classList.add("box");
+                    newBox.id = i + " " + j;
+                    gameBoard.appendChild(newBox);
+                };
+            };
+        };
+    }
+};
+```
 
 ### Controller
 
