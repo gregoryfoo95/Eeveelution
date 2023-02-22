@@ -29,11 +29,13 @@ body {
     font-size: 10px;
     font-weight: bold;
     text-align: center;
+    padding: 20px;
     color:#633C15;
     font-family: "Century Gothic", 'CenturyGothic', 'Geneva', 'AppleGothic', sans-serif;
     border-radius: 10px;
     font-weight: bold;
     background: linear-gradient(135deg, #DCE8E0 0%, #D2D8D6 100%);
+    width: auto;
     
 }
 
@@ -49,6 +51,8 @@ body {
     border-radius: 10px;
     font-weight: bold;
     background: linear-gradient(135deg, #DCE8E0 0%, #D2D8D6 100%);
+    padding: 20px;
+    width: auto;
 }
 
 .reset {
@@ -63,7 +67,8 @@ body {
     font-weight: bold;
     font-family: "Century Gothic", 'CenturyGothic', 'Geneva', 'AppleGothic', sans-serif;
     background: linear-gradient(135deg, #B82E1F 0%, #F2C17D 100%);
-    width: 40%;
+    width: auto;
+    padding: 20px;
 }
 
 div {
