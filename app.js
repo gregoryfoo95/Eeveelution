@@ -60,11 +60,8 @@ let inputField  = document.querySelector(".playerName");
 
 function init() {
     render.createBoard();
-    boardAction.addTwoFour();
-    boardAction.addTwoFour();
     render.updateBoard();
     document.addEventListener("keydown", handlers.handleArrowPress);
-    //body.style.background = `url("https://i.ibb.co/dt3kxnY/background11.jpg")`;
 };
 
 const render = {
@@ -190,7 +187,7 @@ const tileAction = {
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
-        boardAction.checkNoMove(prevArray);
+        boardAction.checkForMove(prevArray);
         gameVars.checkHorOrVert = "";
     },
 
@@ -238,7 +235,7 @@ const tileAction = {
         this.flushRight();
         this.mergeRight();
         this.flushRight();
-        boardAction.checkNoMove(prevArray);
+        boardAction.checkForMove(prevArray);
         gameVars.checkHorOrVert = "";
     },
 
@@ -288,7 +285,7 @@ const tileAction = {
         this.flushUp();
         this.mergeUp();
         this.flushUp();
-        boardAction.checkNoMove(prevArray);
+        boardAction.checkForMove(prevArray);
         gameVars.checkHorOrVert = "";
     },
 
@@ -338,10 +335,10 @@ const tileAction = {
         this.flushDown();
         this.mergeDown();
         this.flushDown();
-        boardAction.checkNoMove(prevArray);
+        boardAction.checkForMove(prevArray);
         gameVars.checkHorOrVert = "";
     }
-}
+};
 
 const boardAction = {
     addTwoFour() {
@@ -382,7 +379,7 @@ const boardAction = {
         };
     },
 
-    checkNoMove(prevArray) {
+    checkForMove(prevArray) {
         if (gameVars.checkHorOrVert === "vert") {
             prevArray = mathFunc.transpose(prevArray);
         };
@@ -404,6 +401,8 @@ const boardAction = {
                 gameVars.boardArray[i][j] = "";
             };
         };
+        this.addTwoFour()
+        this.addTwoFour();
     }
 };
 
@@ -433,8 +432,6 @@ const handlers = {
         resetStatus: 1
         };
         render.createBoard();
-        boardAction.addTwoFour()
-        boardAction.addTwoFour();
         render.updateBoard();
         gameVars.resetStatus = 0;
         displayScreen.innerHTML = "EEVEELUTION";
