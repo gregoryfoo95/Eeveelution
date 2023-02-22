@@ -14,7 +14,7 @@ The objective of the game is to slide tiles on a grid to merge them together to 
 # **Deployment** 
 
 The game is deployed on Github pages and you can access the game here:
-https://gregoryfoo95.github.io/2048_Game/
+https://gregoryfoo95.github.io/Eeveelution/
 
 # **Technologies Utilized**
 
