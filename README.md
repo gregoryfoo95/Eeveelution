@@ -588,4 +588,4 @@ The MVC architectural framework had provided me a fundamental approach which I c
 - Link up with backend and database for scoreboard tracking
 - Perform animations for flush/merge and addition of new "Pokeball" tile.
 - Writing cleaner code logic using Functional Programming & employing Dependency Injection for easier unit testing
-
+- Complete Unit Testing with Mocha and Chai (Partially completed)
