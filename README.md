@@ -297,19 +297,28 @@ const boardAction = {
 
     checkForMove(prevArray) {
         if (gameVars.checkHorOrVert === "vert") {
-            prevArray = mathFunc.transpose(prevArray);
-        };
-    
-        rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
             columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
-                if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
-                    this.addTwoFour();
-                    break rowLoop;
+                rowLoop:    for (let i = 0; i < BOARD_WIDTH; i++) {
+                                if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
+                                    this.addTwoFour();
+                                    gameVars.checkHorOrVert = "";
+                                    break columnLoop;
+                                };
+                            };
+                        };
+        } else if (gameVars.checkHorOrVert === "hor") {
+            rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+                columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
+                    if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
+                        this.addTwoFour();
+                        gameVars.checkHorOrVert = "";
+                        break rowLoop;
+                    };
                 };
             };
         };
     },
-
+    
     initBoard() {
         for (let i=0;i<BOARD_WIDTH;i++) {
             gameVars.boardArray[i] = [];
