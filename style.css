@@ -127,7 +127,7 @@ form {
     background-color: #332011;
     margin: 0 auto;
     width: 80%;
-    row-gap: 10px;
+    /* row-gap: 10px; */
     height: auto;
     border-radius: 10px;
     box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
@@ -213,9 +213,7 @@ form {
     border: solid 10px #432616;
     background-color: #E5D3B3;
     font-size: 60%;
-    align-items: center;
     text-align:center;
-    justify-content: center;
     font-family: "Century Gothic", 'CenturyGothic', 'Geneva', 'AppleGothic', sans-serif;
     white-space: pre-line;
     box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
