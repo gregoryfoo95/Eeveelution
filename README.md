@@ -30,7 +30,15 @@ The goal of the game is to attain the "Team Eevee" badge, with a scoreboard atta
 
 # **Wireframe Sketch & User Story**
 ## Initial Sketch
-![Initial Sketch](https://github.com/gregoryfoo95/2048_Game/blob/main/Ideation/Initial%20Wireframe.png?raw=true)
+<img src = "https://github.com/gregoryfoo95/2048_Game/blob/main/Ideation/Initial%20Wireframe.png?raw=true" width="300" height="300" title="Initial Sketch">
+
+## Start Page, Rules & Legend
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Form_Start_Page.png?raw=true" width="300" height="300" title="Start Page">
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Rules_Start_Page.png?raw=true" width="300" height="300" title="Rules">
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Legend_Start_Page.png?raw=true" width="300" height="300" title="Legend">
+
+## Game Board
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Game_Board.png?raw=true" width="300" height="300" title="GameBoard">
 
 | As a User, I ...                              |                 and this happens!    
 | :---------------------------------------      |:-----------------------------------------------|
@@ -114,8 +122,8 @@ const render = {
                 targetBox.textContent = gameVars.boardArray[i][j];
                 targetBox.style.backgroundColor = NUMTILECOLOR[gameVars.boardArray[i][j]]
                 if (gameVars.boardArray[i][j] !== "") {
-                    if (gameVars.boardArray[i][j] <= 2048) {
-                        targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">";
+                    if (gameVars.boardArray[i][j] <= 16384) {
+                        targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">" + "<div class=\"nums\">" + gameVars.boardArray[i][j] + "</div>" ;
                     }
                     scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
                 };
