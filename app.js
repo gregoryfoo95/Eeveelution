@@ -29,7 +29,7 @@ const EEVEEIMAGES = {
         "64": "https://i.ibb.co/4W1Rg55/Umbreon.png",
         "128": "https://i.ibb.co/HVYGJ3Q/Espeon.png",
         "256": "https://i.ibb.co/7J7K7D8/Glaceon.png",
-        "512": "https://i.ibb.co/Hh4HkNs/Leafeon.png",
+        "512": "https://i.ibb.co/LhvX9fQ/Leafeon.png",
         "1024": "https://i.ibb.co/xMYW6Cw/Faryeon.png",
         "2048": "https://i.ibb.co/bLxLGmG/Team-Eevee.png",
         "4096": "https://i.ibb.co/XkTBbJq/gengar.jpg",
@@ -73,8 +73,6 @@ function init() {
         resetStatus: 0,
         checkHorOrVert: ""
     };
-
-    console.log(gameVars);
     render.createBoard();
     render.updateBoard();
     document.addEventListener("keydown", handlers.handleArrowPress);
@@ -99,6 +97,12 @@ const render = {
 
     createBoard() {
         boardAction.initBoard();
+        gameVars.boardArray = [
+            [256,256,"",""],
+            [512,512,"",""],
+            ["","","",""],
+            ["","","",""],
+        ];
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 if (gameVars.resetStatus === 0) {

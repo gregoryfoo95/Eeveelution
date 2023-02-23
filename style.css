@@ -124,12 +124,13 @@ div {
 form {
     display: grid;
     justify-content: center;
+    align-items: center;
     background-color: #332011;
-    margin: auto;
-    row-gap: 10px;
+    margin: 0 auto;
     padding: 1%;
     width: 80%;
-    height: 150%;
+    row-gap: 10px;
+    height: auto;
     border-radius: 10px;
     box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
             0 1px 1px rgba(128, 128, 128, 0.155),
@@ -137,7 +138,6 @@ form {
             0 4.4px 4.4px rgba(128, 128, 128, 0.241),
             0 12px 12px rgba(128, 128, 128, 0.35);
     font-size: 20px;
-    justify-items: stretch;
     color: #14171A;
     font-weight: bolder;
     font-family: "Century Gothic", 'CenturyGothic', 'Geneva', 'AppleGothic', sans-serif;
