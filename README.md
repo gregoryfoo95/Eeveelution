@@ -584,9 +584,8 @@ The MVC architectural framework had provided me a fundamental approach which I c
 
 # **Future Works**
 
-- Allow the rendered gameboard to cater for scalable size increment/reduction on HTML and CSS
 - Include timer function to increase difficulty for user
 - Link up with backend and database for scoreboard tracking
 - Perform animations for flush/merge and addition of new "Pokeball" tile.
-- Writing cleaner code logic using Functional Programming
+- Writing cleaner code logic using Functional Programming & employing Dependency Injection for easier unit testing
 
