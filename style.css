@@ -9,7 +9,7 @@ body {
     margin: 0 auto;
     justify-content: space-evenly;
     row-gap: 10px;
-    min-height: 600px;
+    min-height: 300px;
     grid-template: 100%/ repeat(4,1fr);
 }
 
@@ -127,7 +127,7 @@ form {
     background-color: #332011;
     margin: 0 auto;
     width: 80%;
-    /* row-gap: 10px; */
+    row-gap: 10px;
     height: auto;
     border-radius: 10px;
     box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
@@ -214,6 +214,7 @@ form {
     background-color: #E5D3B3;
     font-size: 60%;
     text-align:center;
+    justify-content: center;
     font-family: "Century Gothic", 'CenturyGothic', 'Geneva', 'AppleGothic', sans-serif;
     white-space: pre-line;
     box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
@@ -266,7 +267,7 @@ img {
 
     form {
         width: 500px;
-        height: 550px;
+        height: 400px;
     }
 
     .legend {
