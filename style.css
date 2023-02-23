@@ -3,7 +3,6 @@ body {
     background-color: #15202B;
     /* background-image: url("https://i.ibb.co/dt3kxnY/background11.jpg"); */
     /* background-image: url("https://i.ibb.co/VSyYZxY/background2.jpg"); */
-    padding-top: 5%;
     display: flex;
     flex-direction: column;
     max-width: 500px;
