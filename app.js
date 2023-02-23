@@ -97,12 +97,6 @@ const render = {
 
     createBoard() {
         boardAction.initBoard();
-        gameVars.boardArray = [
-            [256,256,"",""],
-            [512,512,"",""],
-            ["","","",""],
-            ["","","",""],
-        ];
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 if (gameVars.resetStatus === 0) {
