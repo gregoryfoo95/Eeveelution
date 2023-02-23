@@ -231,7 +231,7 @@ const tileAction = {
 
     swipeLeft() {
         gameVars.checkHorOrVert = "hor";
-        const prevArray = gameVars.boardArray;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray));
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
@@ -279,7 +279,7 @@ const tileAction = {
 
     swipeRight() {
         gameVars.checkHorOrVert = "hor";
-        const prevArray = gameVars.boardArray;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushRight();
         this.mergeRight();
         this.flushRight();
@@ -329,7 +329,7 @@ const tileAction = {
 
     swipeUp() {
         gameVars.checkHorOrVert = "vert";
-        const prevArray = gameVars.boardArray;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushUp();
         this.mergeUp();
         this.flushUp();
@@ -379,7 +379,7 @@ const tileAction = {
 
     swipeDown() {
         gameVars.checkHorOrVert = "vert";
-        const prevArray = gameVars.boardArray;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushDown();
         this.mergeDown();
         this.flushDown();
@@ -392,7 +392,7 @@ const boardAction = {
     addTwoFour() {
         let emptyTiles = [];
         let indices;
-        let newTiles = [2,4];
+        const newTiles = [2,4];
 
         for (let i = 0; i < BOARD_WIDTH; i++) {
             for (let j = 0; j < BOARD_WIDTH; j++) {
@@ -491,19 +491,15 @@ const handlers = {
         switch(clicked) {
             case "ArrowLeft":
                 tileAction.swipeLeft();
-                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
             case "ArrowRight":
                 tileAction.swipeRight();
-                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
             case "ArrowUp":
                 tileAction.swipeUp();
-                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
             case "ArrowDown":
                 tileAction.swipeDown();
-                console.log(JSON.parse(JSON.stringify(gameVars.boardArray)));
                 break;
         };
         render.updateBoard();
