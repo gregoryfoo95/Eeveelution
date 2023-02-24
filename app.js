@@ -69,7 +69,7 @@ function init() {
         gameStatus: "", // Progress - "", Win - "1", Loss - "0";
         emptyState: true,
         score: 0,
-        playerName: "Player",
+        playerName: "",
         resetStatus: 0,
         checkHorOrVert: ""
     };
@@ -88,8 +88,14 @@ const render = {
                 if (gameVars.boardArray[i][j] !== "") {
                     if (gameVars.boardArray[i][j] <= 16384) {
                         targetBox.innerHTML = "<img src =" + EEVEEIMAGES[gameVars.boardArray[i][j]] + ">" + "<div class=\"nums\">" + gameVars.boardArray[i][j] + "</div>" ;
+                    };
+                    
+                    if (inputField.value === "") {
+                        gameVars.playerName = "Player";
+                    } else {
+                        gameVars.playerName = inputField.value;
                     }
-                    scoreBoard.innerHTML = `${inputField.value}'s Score: ${parseInt(gameVars.score)}`;
+                    scoreBoard.innerHTML = `${gameVars.playerName}'s Score: ${parseInt(gameVars.score)}`;
                 };
             };
         };
