@@ -2,7 +2,7 @@
 
 # **Game Background**
 
-The 2048 is a single-player sliding tile puzzle game that was previously developed by Italian Web Developer Gabriele Cirulli and published on GitHub. Likewise, as a budding software developer, I have a strong desire to create a game that I can call my own. This game was originally developed in Javascript and CSS over a weekend and it is the exact same scenario for myself personally. How apt can that be!
+The 2048 is a single-player sliding tile puzzle game that was previously developed by Italian Web Developer Gabriele Cirulli and published on GitHub. Likewise, as a budding software developer currently undergoing the Software Engineering Immersive course at General Assembly, I have a strong desire to create a game that I can call my own. This game was originally developed in Javascript and CSS over a weekend and it is the exact same scenario for myself personally. How apt can that be!
 
 # **Project Description**
 The objective of the game is to slide tiles on a grid to merge them together to achieve the ultimate goal of the cutest Eevee evolution form. 
