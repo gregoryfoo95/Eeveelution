@@ -43,7 +43,7 @@ let gameVars = {
     gameStatus: "",
     emptyState: "",
     score: "",
-    playerName: "Player",
+    playerName: "",
     resetStatus: "",
     checkHorOrVert: ""
 };
@@ -69,7 +69,7 @@ function init() {
         gameStatus: "", // Progress - "", Win - "1", Loss - "0";
         emptyState: true,
         score: 0,
-        playerName: "",
+        playerName: "Player",
         resetStatus: 0,
         checkHorOrVert: ""
     };

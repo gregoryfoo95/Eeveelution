@@ -3,19 +3,19 @@ const BOARD_WIDTH =4;
 let emptyState;
 
 describe("Transpose function", function () {
-let arr = [
-    [1,2,2,1],
-    [2,1,1,2],
-    [1,2,2,1],
-    [0,0,0,0]
-];
+    let arr = [
+        [1,2,2,1],
+        [2,1,1,2],
+        [1,2,2,1],
+        [0,0,0,0]
+    ];
 
-let arrAns = [
-    [1,2,1,0],
-    [2,1,2,0],
-    [2,1,2,0],
-    [1,2,1,0]
-];
+    let arrAns = [
+        [1,2,1,0],
+        [2,1,2,0],
+        [2,1,2,0],
+        [1,2,1,0]
+    ];
 
     it("Transposes a matrix", function () {
         arr = transpose(arr);
@@ -28,19 +28,19 @@ let arrAns = [
 });
 
 describe("Check if board is empty", function () {
-const arrFull = [
-    [1,2,2,1],
-    [2,1,1,2],
-    [1,2,2,1],
-    [0,0,0,0]
-];
+    const arrFull = [
+        [1,2,2,1],
+        [2,1,1,2],
+        [1,2,2,1],
+        [0,0,0,0]
+    ];
 
-const arrNotFull = [
-    [1,2,2,""],
-    [2,"",1,2],
-    [1,2,"",1],
-    [0,0,0,0]
-];
+    const arrNotFull = [
+        [1,2,2,""],
+        [2,"",1,2],
+        [1,2,"",1],
+        [0,0,0,0]
+    ];
 
     it("Unfilled array" , function () {
         checkFullBoard(arrNotFull);
@@ -55,19 +55,19 @@ const arrNotFull = [
 
 describe("Check if addTwoFour is working for full and unfilled array", function () {
 
-let arrAddTwoFour = [
-    ["","","",""],
-    ["",4,"",2],
-    ["","","",""],
-    ["","","",""]
-];
+    let arrAddTwoFour = [
+        ["","","",""],
+        ["",4,"",2],
+        ["","","",""],
+        ["","","",""]
+    ];
 
-let arrAddTwoFourFull = [
-    [1,2,1,0],
-    [2,1,2,0],
-    [2,1,2,0],
-    [1,2,1,0]
-];
+    let arrAddTwoFourFull = [
+        [1,2,1,0],
+        [2,1,2,0],
+        [2,1,2,0],
+        [1,2,1,0]
+    ];
 
     it("Unfilled array" , function () {
         let filledCountA = 0;
