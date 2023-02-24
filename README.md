@@ -22,6 +22,7 @@ https://gregoryfoo95.github.io/Eeveelution/
 - Javascript
 - CSS
 - Git for Version Control
+- Mocha and Chai for Unit Testing
 - Window Powershell for Command Line Prompt
 
 # **Gameplay!**
@@ -586,6 +587,9 @@ const tileAction = {
 ```
 
 </details>
+
+## **Unit Testing with Mocha and Chai**
+Unit testing was also implemented using Mocha and Chai to trial the actual process of software development, less integration and end-to-end tests. The expected outputs of each functions were checked to ensure that they are correct, to ensure the smooth deployment of the game. Functions involving Document Object Model manipulation were excluded. Please see the test results <a href=https://gregoryfoo95.github.io/Eeveelution/runTest.html>here</a>.
 
 # **Key Takeaways**
 
