@@ -2,6 +2,8 @@
 const BOARD_WIDTH = 4;
 const DIRECTIONS = ["left", "right", "up", "down"];
 const DIRSYMBOLS = ["←","→","↑","↓"];
+const HOR = "hor";
+const VERT = "vert";
 const NUMTILECOLOR = {
         "" : "white",
         "2": "lightblue",
@@ -230,7 +232,7 @@ const tileAction = {
     },
 
     swipeLeft() {
-        gameVars.checkHorOrVert = "hor";
+        gameVars.checkHorOrVert = HOR;
         const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray));
         this.flushLeft();
         this.mergeLeft();
@@ -278,7 +280,7 @@ const tileAction = {
     },
 
     swipeRight() {
-        gameVars.checkHorOrVert = "hor";
+        gameVars.checkHorOrVert = HOR;
         const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushRight();
         this.mergeRight();
@@ -328,7 +330,7 @@ const tileAction = {
     },
 
     swipeUp() {
-        gameVars.checkHorOrVert = "vert";
+        gameVars.checkHorOrVert = VERT;
         const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushUp();
         this.mergeUp();
@@ -378,7 +380,7 @@ const tileAction = {
     },
 
     swipeDown() {
-        gameVars.checkHorOrVert = "vert";
+        gameVars.checkHorOrVert = VERT;
         const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushDown();
         this.mergeDown();
@@ -427,7 +429,7 @@ const boardAction = {
     },
 
     checkForMove(prevArray) {
-        if (gameVars.checkHorOrVert === "vert") {
+        if (gameVars.checkHorOrVert === VERT) {
             columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                 rowLoop:    for (let i = 0; i < BOARD_WIDTH; i++) {
                                 if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
@@ -437,7 +439,7 @@ const boardAction = {
                                 };
                             };
                         };
-        } else if (gameVars.checkHorOrVert === "hor") {
+        } else if (gameVars.checkHorOrVert === HOR) {
             rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
                 columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                     if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
