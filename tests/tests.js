@@ -1,4 +1,4 @@
-let assert = chai.assert;
+const assert = chai.assert;
 const BOARD_WIDTH =4;
 let emptyState;
 
@@ -89,7 +89,11 @@ describe("Check if addTwoFour is working for full and unfilled array", function 
 
     it("filled array" , function () {
         const arrTwoFour = addTwoFour(arrAddTwoFourFull);
-        assert.equal(arrTwoFour, arrAddTwoFourFull,"To check no changes were done to original array");
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(arrTwoFour[i][j], arrAddTwoFourFull[i][j],"To check no changes were done to original array");
+            };
+        };
     });
 })
 
@@ -154,3 +158,355 @@ describe("Check if checkWinner() is able to detect different tiered winners", fu
         assert.equal(gameStatus,1);
     });
 })
+
+describe("Check if checkLose() is able to detect different array combinations provided to it", function () {
+    it("Check if a board which has empty slots will not be deemed as loss", function (){
+    const arr = [
+        ["",2,"",""],
+        ["","",4,""],
+        ["","","",""],
+        ["",8,"",""]
+    ];
+
+    assert.equal(checkLose(arr), false);
+    });
+
+    it("Check if a board which has vertical combinations left will not be deemed as loss", function (){
+    const arr = [
+        [16,2,16,8],
+        [2,32,4,16],
+        [4,16,2,256],
+        [2,8,16,256]
+    ];
+
+    assert.equal(checkLose(arr), false);
+    });
+
+    it("Check if a board which has horizontal combinations left will not be deemed as loss", function (){
+    const arr = [
+        [16,2,16,8],
+        [2,32,4,16],
+        [4,16,256,256],
+        [2,8,16,2]
+    ];
+
+    assert.equal(checkLose(arr), false);
+    });
+
+    it("Check if a board which has no combinations left will be deemed as loss", function (){
+    const arr = [
+        [16,2,16,8],
+        [2,32,4,16],
+        [4,16,256,4],
+        [2,8,16,2]
+    ];
+
+    assert.equal(checkLose(arr), true);
+    });
+
+});
+
+describe("Check if checkForMove() is able to effectively detect possible combination", function () {
+    const HOR = "hor";
+    const VERT = "vert";
+    const prevArray = [
+        ["","","",""],
+        ["","","",""],
+        [2,4,2,8],
+        ["","","",""]
+    ];
+
+    const currArray = [
+        [2,4,2,8],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""]
+    ];
+    it("Check if checkForMove() is able to effectively detect for no possible combination vertically upwards", function () {
+        assert.equal(checkForMove(prevArray,currArray,VERT), 1, "Nothing was added")
+    });
+});
+
+describe("Check if flushLeft() is functional", function () {
+    it("Check if all tiles which are supposed to move left, indeed moved", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            [4,"","",""],
+            [2,4,"",""],
+            [4,4,"",""],
+            [2,8,"",""]
+        ];
+
+        prevArr = flushLeft(prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(prevArr[i][j],currArr[i][j],"The resulting array was not flushed properly");
+            };
+        };
+    });
+});
+
+describe("Check if mergeLeft() is functional", function () {
+    it("Check if score summation is performed correctly", function () {
+        let prevArr = [
+            ["","",4,4],
+            ["",2,4,4],
+            ["",8,4,""],
+            [2,8,8,""]
+        ];
+
+        let score = 0;
+        const correctScore = 32;
+
+        [score, arr] = mergeLeft(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(score, correctScore,"Score does not tally");
+            };
+        };
+    });
+
+    it("Check if all tiles which are supposed to merge left, indeed merged", function () {
+        let prevArr = [
+            ["","",4,4],
+            ["",2,4,4],
+            ["",8,4,""],
+            [2,8,8,""]
+        ];
+
+        const currArr = [
+            ["","",8,""],
+            ["",2,8,""],
+            ["",8,4,""],
+            [2,16,"",""]
+        ];
+
+        let score = 0;
+
+        [score, arr] = mergeLeft(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(arr[i][j], currArr[i][j],"Array does not tally");
+            };
+        };
+    });
+});
+
+describe("Check if flushRight() is functional", function () {
+    it("Check if all tiles which are supposed to move right, indeed moved", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            ["","","",4],
+            ["","",2,4],
+            ["","",4,4],
+            ["","",2,8]
+        ];
+
+        prevArr = flushRight(prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(prevArr[i][j],currArr[i][j],"The resulting array was not flushed properly");
+            };
+        };
+    });
+});
+
+describe("Check if mergeRight() is functional", function () {
+    it("Check if score summation is performed correctly", function () {
+        let prevArr = [
+            ["","",4,4],
+            [2,2,4,4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        let score = 0;
+        const correctScore = 28;
+
+        [score, arr] = mergeLeft(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(score, correctScore,"Score does not tally");
+            };
+        };
+    });
+
+    it("Check if all tiles which are supposed to merge right, indeed merged", function () {
+        let prevArr = [
+            ["","",4,4],
+            [2,2,4,4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            ["","","",8],
+            ["",4,"",8],
+            ["","",8,""],
+            [2,"",8,""]
+        ];
+
+        let score = 0;
+
+        [score, arr] = mergeRight(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(arr[i][j], currArr[i][j],"Array does not tally");
+            };
+        };
+    });
+});
+
+describe("Check if flushUp() is functional", function () {
+    it("Check if all tiles which are supposed to move up, indeed moved", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            [2,2,4,4],
+            ["",4,8,4],
+            ["","","",""],
+            ["","","",""]
+        ];
+
+        prevArr = flushUp(prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(prevArr[i][j],currArr[i][j],"The resulting array was not flushed properly");
+            };
+        };
+    });
+});
+
+describe("Check if mergeUp() is functional", function () {
+    it("Check if score summation is performed correctly", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        let score = 0;
+        const correctScore = 8;
+
+        [score, arr] = mergeUp(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(score, correctScore,"Score does not tally");
+            };
+        };
+    });
+
+    it("Check if all tiles which are supposed to merge up, indeed merged", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            ["","","",8],
+            ["",2,"",""],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        let score = 0;
+
+        [score, arr] = mergeUp(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(arr[i][j], currArr[i][j],"Array does not tally");
+            };
+        };
+    });
+});
+
+describe("Check if flushDown() is functional", function () {
+    it("Check if all tiles which are supposed to move down, indeed moved", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            ["","","",""],
+            ["","","",""],
+            ["",2,4,4],
+            [2,4,8,4]
+        ];
+
+        prevArr = flushDown(prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(prevArr[i][j],currArr[i][j],"The resulting array was not flushed properly");
+            };
+        };
+    });
+});
+
+describe("Check if mergeDown() is functional", function () {
+    it("Check if score summation is performed correctly", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        let score = 0;
+        const correctScore = 8;
+
+        [score, arr] = mergeDown(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(score, correctScore, "Score does not tally");
+            };
+        };
+    });
+
+    it("Check if all tiles which are supposed to merge down, indeed merged", function () {
+        let prevArr = [
+            ["","","",4],
+            ["",2,"",4],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        const currArr = [
+            ["","","",""],
+            ["",2,"",8],
+            ["",4,4,""],
+            [2,"",8,""]
+        ];
+
+        let score = 0;
+
+        [score, arr] = mergeDown(score, prevArr);
+        for (let i = 0; i < BOARD_WIDTH; i++) {
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                assert.equal(arr[i][j], currArr[i][j], "Array does not tally");
+            };
+        };
+    });
+});
