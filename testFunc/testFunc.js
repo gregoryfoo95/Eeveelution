@@ -46,4 +46,56 @@ function addTwoFour(arr) {
         console.log("runs checkFullBoard()");
 
         return arr;
-    }
+}
+
+function checkWinner(arr) {
+    let winnerTier = 0;
+    let gameStatus = 0;
+    rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
+    columnLoop: for (let j = 0; j < BOARD_WIDTH;j++) {
+                    if (arr[i][j] === 2048 && winnerTier === 0) {
+                        winnerTier = 1;
+                        gameStatus = 1;
+                        //break rowLoop;
+                    };
+                    
+                    if (arr[i][j] === 4096 && winnerTier < 2) {
+                        winnerTier = 2;
+                        gameStatus = 1;
+                        //break rowLoop;
+                    };
+                    
+                    if (arr[i][j] === 8192 && winnerTier < 3) {
+                        winnerTier = 3;
+                        gameStatus = 1;
+                        //break rowLoop;
+                    };
+
+                    if (arr[i][j] === 16384 && winnerTier < 4) {
+                        winnerTier = 4;
+                        gameStatus = 1;
+                        //break rowLoop;
+                    };
+                };
+            };
+
+    switch (winnerTier) {
+        case 1:
+            winnerTier = 1;
+            gameStatus = 1;
+            break;
+        case 2:
+            winnerTier = 2;
+            gameStatus = 1;
+            break;
+        case 3:
+            winnerTier = 3;
+            gameStatus = 1;
+            break;
+        case 4:
+            winnerTier = 4;
+            gameStatus = 1;
+            break;
+    };
+    return [winnerTier, gameStatus];
+};

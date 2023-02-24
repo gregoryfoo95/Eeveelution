@@ -97,6 +97,12 @@ const render = {
 
     createBoard() {
         boardAction.initBoard();
+        /* gameVars.boardArray = [
+            [1024,"","",""],
+            [1024,"","",""],
+            ["","","",""],
+            ["","",2048,2048]
+        ]; */
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 if (gameVars.resetStatus === 0) {
@@ -384,7 +390,7 @@ const tileAction = {
         this.mergeDown();
         this.flushDown();
         boardAction.checkForMove(prevArray);
-
+        gameVars.checkHorOrVert = "";
     }
 };
 
@@ -396,7 +402,6 @@ const boardAction = {
 
         for (let i = 0; i < BOARD_WIDTH; i++) {
             for (let j = 0; j < BOARD_WIDTH; j++) {
-                
                 if (gameVars.boardArray[i][j] === "") {
                     emptyTiles.push(i + " " + j);
                 };
