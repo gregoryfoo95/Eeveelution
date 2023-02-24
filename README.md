@@ -261,11 +261,10 @@ const boardAction = {
     addTwoFour() {
         let emptyTiles = [];
         let indices;
-        let newTiles = [2,4];
+        const newTiles = [2,4];
 
         for (let i = 0; i < BOARD_WIDTH; i++) {
             for (let j = 0; j < BOARD_WIDTH; j++) {
-                
                 if (gameVars.boardArray[i][j] === "") {
                     emptyTiles.push(i + " " + j);
                 };
@@ -297,7 +296,7 @@ const boardAction = {
     },
 
     checkForMove(prevArray) {
-        if (gameVars.checkHorOrVert === "vert") {
+        if (gameVars.checkHorOrVert === VERT) {
             columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                 rowLoop:    for (let i = 0; i < BOARD_WIDTH; i++) {
                                 if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
@@ -307,7 +306,7 @@ const boardAction = {
                                 };
                             };
                         };
-        } else if (gameVars.checkHorOrVert === "hor") {
+        } else if (gameVars.checkHorOrVert === HOR) {
             rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
                 columnLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                     if (gameVars.boardArray[i][j] !== prevArray[i][j]) {
@@ -319,7 +318,7 @@ const boardAction = {
             };
         };
     },
-    
+
     initBoard() {
         for (let i=0;i<BOARD_WIDTH;i++) {
             gameVars.boardArray[i] = [];
@@ -339,39 +338,67 @@ const boardAction = {
 ```js
 const gameAction = {
     checkWinner() {
+        let winnerTier = 0;
         rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
         columnLoop: for (let j = 0; j < BOARD_WIDTH;j++) {
-            if (gameVars.boardArray[i][j] === 2048) {
-                displayScreen.textContent = "You won the Team Eevee Badge!";
+            if (gameVars.boardArray[i][j] === 2048 && winnerTier === 0) {
+                winnerTier = 1;
                 gameVars.gameStatus = 1;
-                break rowLoop;
+            };
+            
+            if (gameVars.boardArray[i][j] === 4096 && winnerTier < 2) {
+                winnerTier = 2;
+                gameVars.gameStatus = 1;
+            };
+            
+            if (gameVars.boardArray[i][j] === 8192 && winnerTier < 3) {
+                winnerTier = 3;
+                gameVars.gameStatus = 1;
+            };
+
+            if (gameVars.boardArray[i][j] === 16384 && winnerTier < 4) {
+                winnerTier = 4;
+                gameVars.gameStatus = 1;
             };
         };
-        }
+        };
+
+        switch (winnerTier) {
+            case 1:
+                displayScreen.textContent = "You won the Team Eevee Badge!";
+                break;
+            case 2:
+                displayScreen.textContent = "Hey, stop it. You shouldn't go further...";
+                break;
+            case 3:
+                displayScreen.textContent = "Gengarr..... D.ii.eeee...";
+                break;
+            case 4:
+                displayScreen.textContent = "Close call, it's just a ditto. Well, there's no other pokemon here. Escape or continue? Your call.";
+                break;
+        };
     },
 
     checkLose() {
         let gameOver = true;
-        //Check from left to right for possible winning configurations
         rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
             columnLoop: for (let j = 0; j < BOARD_WIDTH-1; j++) {
-                if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
-                    gameOver = false;
-                    break rowLoop;
-                };
-            };
-        };
-        //Check from Top to bottom for possible winning configurations
+                            if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
+                                gameOver = false;
+                                break rowLoop;
+                            };
+                        };
+                    };
         if (gameOver) {
             rowLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
-                columnLoop: for (let i = 0; i < BOARD_WIDTH-1; i++) {
-                    if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
-                        gameOver = false;
-                        break rowLoop;
+            columnLoop: for (let i = 0; i < BOARD_WIDTH-1; i++) {
+                            if (gameVars.boardArray[i][j] === gameVars.boardArray[i+1][j]) {
+                                gameOver = false;
+                                break rowLoop;
+                            };
+                        };
                     };
                 };
-            };
-        };
 
         if (gameOver) {
             displayScreen.innerText = "Good luck next time! Eevee has decided to look for a better pokemon trainer...";
@@ -427,8 +454,8 @@ const tileAction = {
     },
 
     swipeLeft() {
-        gameVars.checkHorOrVert = "hor";
-        const prevArray = gameVars.boardArray;
+        gameVars.checkHorOrVert = HOR;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray));
         this.flushLeft();
         this.mergeLeft();
         this.flushLeft();
@@ -475,8 +502,8 @@ const tileAction = {
     },
 
     swipeRight() {
-        gameVars.checkHorOrVert = "hor";
-        const prevArray = gameVars.boardArray;
+        gameVars.checkHorOrVert = HOR;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushRight();
         this.mergeRight();
         this.flushRight();
@@ -525,8 +552,8 @@ const tileAction = {
     },
 
     swipeUp() {
-        gameVars.checkHorOrVert = "vert";
-        const prevArray = gameVars.boardArray;
+        gameVars.checkHorOrVert = VERT;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushUp();
         this.mergeUp();
         this.flushUp();
@@ -575,15 +602,15 @@ const tileAction = {
     },
 
     swipeDown() {
-        gameVars.checkHorOrVert = "vert";
-        const prevArray = gameVars.boardArray;
+        gameVars.checkHorOrVert = VERT;
+        const prevArray = JSON.parse(JSON.stringify(gameVars.boardArray))
         this.flushDown();
         this.mergeDown();
         this.flushDown();
         boardAction.checkForMove(prevArray);
         gameVars.checkHorOrVert = "";
     }
-}
+};
 ```
 
 </details>
