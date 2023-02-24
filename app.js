@@ -43,7 +43,7 @@ let gameVars = {
     gameStatus: "",
     emptyState: "",
     score: "",
-    playerName: "",
+    playerName: "Player",
     resetStatus: "",
     checkHorOrVert: ""
 };
@@ -97,12 +97,6 @@ const render = {
 
     createBoard() {
         boardAction.initBoard();
-        /* gameVars.boardArray = [
-            [1024,"","",""],
-            [1024,"","",""],
-            ["","","",""],
-            ["","",2048,2048]
-        ]; */
         for (let i=0;i<BOARD_WIDTH;i++) {
             for (let j=0;j<BOARD_WIDTH;j++) {
                 if (gameVars.resetStatus === 0) {
@@ -124,25 +118,21 @@ const gameAction = {
             if (gameVars.boardArray[i][j] === 2048 && winnerTier === 0) {
                 winnerTier = 1;
                 gameVars.gameStatus = 1;
-                //break rowLoop;
             };
             
             if (gameVars.boardArray[i][j] === 4096 && winnerTier < 2) {
                 winnerTier = 2;
                 gameVars.gameStatus = 1;
-                //break rowLoop;
             };
             
             if (gameVars.boardArray[i][j] === 8192 && winnerTier < 3) {
                 winnerTier = 3;
                 gameVars.gameStatus = 1;
-                //break rowLoop;
             };
 
             if (gameVars.boardArray[i][j] === 16384 && winnerTier < 4) {
                 winnerTier = 4;
                 gameVars.gameStatus = 1;
-                //break rowLoop;
             };
         };
         };
@@ -165,7 +155,6 @@ const gameAction = {
 
     checkLose() {
         let gameOver = true;
-        //Check from left to right for possible winning configurations
         rowLoop: for (let i = 0; i < BOARD_WIDTH; i++) {
             columnLoop: for (let j = 0; j < BOARD_WIDTH-1; j++) {
                 if (gameVars.boardArray[i][j] === gameVars.boardArray[i][j+1]) {
@@ -174,7 +163,6 @@ const gameAction = {
                 };
             };
         };
-        //Check from Top to bottom for possible winning configurations
         if (gameOver) {
             rowLoop: for (let j = 0; j < BOARD_WIDTH; j++) {
                 columnLoop: for (let i = 0; i < BOARD_WIDTH-1; i++) {
