@@ -31,15 +31,15 @@ The goal of the game is to attain the "Team Eevee" badge, with a scoreboard atta
 
 # **Wireframe Sketch & User Story**
 ## Initial Sketch
-<img src = "https://github.com/gregoryfoo95/2048_Game/blob/main/Ideation/Initial%20Wireframe.png?raw=true" width="300" height="300" title="Initial Sketch">
+<img src = "https://github.com/gregoryfoo95/2048_Game/blob/main/Ideation/Initial%20Wireframe.png?raw=true" width="400" height="400" title="Initial Sketch">
 
 ## Start Page, Rules & Legend
-<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Form_Start_Page.png?raw=true" width="300" height="300" title="Start Page">
-<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Rules_Start_Page.png?raw=true" width="300" height="300" title="Rules">
-<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Legend_Start_Page.png?raw=true" width="300" height="300" title="Legend">
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Form_Start_Page.png?raw=true" width="400" height="400" title="Start Page">
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Rules_Start_Page.png?raw=true" width="400" height="400" title="Rules">
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Legend_Start_Page.png?raw=true" width="400" height="400" title="Legend">
 
 ## Game Board
-<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Game_Board.png?raw=true" width="300" height="300" title="GameBoard">
+<img src = "https://github.com/gregoryfoo95/Eeveelution/blob/main/Eevees/Game_Board.png?raw=true" width="400" height="400" title="GameBoard">
 
 | As a User, I ...                              |                 and this happens!    
 | :---------------------------------------      |:-----------------------------------------------|
